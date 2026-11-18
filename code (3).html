@@ -1,0 +1,3276 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>اكتشف كوردستان | الدليل السياحي التفاعلي</title>
+    <!-- خطوط عربية عصرية واضحة -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        /* =========================================
+           1. المتغيرات الأساسية ونظام الألوان (Dark Mode & Neon)
+           ========================================= */
+        :root {
+            --bg-primary: #070b14;
+            --bg-secondary: #0f172a;
+            --glass-bg: rgba(20, 30, 50, 0.55);
+            --glass-bg-hover: rgba(30, 45, 75, 0.75);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --glass-border-highlight: rgba(56, 189, 248, 0.4);
+            
+            --neon-cyan: #06b6d4;
+            --neon-emerald: #10b981;
+            --neon-purple: #8b5cf6;
+            --neon-amber: #f59e0b;
+            --neon-rose: #f43f5e;
+
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --text-dim: #64748b;
+
+            --radius-lg: 20px;
+            --radius-md: 14px;
+            --radius-sm: 10px;
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Tajawal', 'Cairo', sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-main);
+            line-height: 1.6;
+            overflow-x: hidden;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        /* خلفيات ضوئية محيطية (Ambient Glows) */
+        .ambient-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .glow-orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(110px);
+            opacity: 0.28;
+            animation: floatOrb 18s infinite alternate ease-in-out;
+        }
+
+        .orb-1 {
+            width: 450px;
+            height: 450px;
+            background: var(--neon-cyan);
+            top: -100px;
+            right: -100px;
+        }
+
+        .orb-2 {
+            width: 400px;
+            height: 400px;
+            background: var(--neon-emerald);
+            bottom: 10%;
+            left: -120px;
+            animation-delay: -5s;
+        }
+
+        .orb-3 {
+            width: 350px;
+            height: 350px;
+            background: var(--neon-purple);
+            top: 45%;
+            right: 30%;
+            opacity: 0.18;
+            animation-delay: -10s;
+        }
+
+        @keyframes floatOrb {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(30px, 40px) scale(1.1); }
+        }
+
+        /* =========================================
+           2. الشريط العلوي (Navbar)
+           ========================================= */
+        .navbar {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(7, 11, 20, 0.8);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--glass-border);
+            padding: 0.9rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            text-decoration: none;
+            color: var(--text-main);
+        }
+
+        .brand-logo {
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, var(--neon-emerald), var(--neon-cyan));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            box-shadow: 0 0 20px rgba(6, 182, 212, 0.4);
+            overflow: hidden;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .brand-logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 12px;
+        }
+
+        .brand-text h1 {
+            font-family: 'Cairo', sans-serif;
+            font-size: 1.25rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            background: linear-gradient(to left, #fff, #94a3b8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .brand-text span {
+            font-size: 0.75rem;
+            color: var(--neon-cyan);
+            display: block;
+            margin-top: -4px;
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .nav-btn {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            color: var(--text-main);
+            padding: 0.55rem 1rem;
+            border-radius: var(--radius-sm);
+            font-family: inherit;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: var(--transition);
+            position: relative;
+            text-decoration: none;
+        }
+
+        .nav-btn:hover {
+            background: var(--glass-bg-hover);
+            border-color: var(--glass-border-highlight);
+            transform: translateY(-2px);
+        }
+
+        .nav-btn.active-fav {
+            background: rgba(244, 63, 94, 0.15);
+            border-color: var(--neon-rose);
+            color: #fda4af;
+        }
+
+        .badge {
+            background: linear-gradient(135deg, var(--neon-cyan), var(--neon-emerald));
+            color: #041014;
+            font-weight: 800;
+            font-size: 0.75rem;
+            padding: 0.1rem 0.45rem;
+            border-radius: 999px;
+            min-width: 22px;
+            text-align: center;
+        }
+
+        .badge.rose {
+            background: var(--neon-rose);
+            color: #fff;
+        }
+
+        /* =========================================
+           3. الواجهة الرئيسية (Hero Section)
+           ========================================= */
+        .hero {
+            padding: 3.5rem 5% 2rem;
+            text-align: center;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .hero-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(16, 185, 129, 0.12);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            color: #6ee7b7;
+            padding: 0.4rem 1rem;
+            border-radius: 999px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 1.2rem;
+        }
+
+        .hero h2 {
+            font-family: 'Cairo', sans-serif;
+            font-size: clamp(1.9rem, 4.5vw, 3.1rem);
+            font-weight: 800;
+            line-height: 1.25;
+            margin-bottom: 1rem;
+        }
+
+        .hero h2 span {
+            background: linear-gradient(90deg, var(--neon-cyan), var(--neon-emerald), #34d399);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            color: var(--text-muted);
+            font-size: clamp(1rem, 2vw, 1.15rem);
+            max-width: 680px;
+            margin: 0 auto 2rem;
+        }
+
+        /* شريط البحث الفوري */
+        .search-wrapper {
+            position: relative;
+            max-width: 620px;
+            margin: 0 auto;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 1rem 3.2rem 1rem 3rem;
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-lg);
+            color: var(--text-main);
+            font-family: inherit;
+            font-size: 1rem;
+            transition: var(--transition);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--neon-cyan);
+            box-shadow: 0 0 0 4px rgba(6, 182, 212, 0.15), 0 10px 30px rgba(0, 0, 0, 0.4);
+        }
+
+        .search-input::placeholder {
+            color: var(--text-dim);
+        }
+
+        .search-icon {
+            position: absolute;
+            right: 1.1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--neon-cyan);
+            pointer-events: none;
+            display: flex;
+        }
+
+        .clear-search {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: var(--text-muted);
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.85rem;
+            transition: var(--transition);
+        }
+
+        .clear-search:hover {
+            background: var(--neon-rose);
+            color: #fff;
+        }
+
+        /* =========================================
+           4. أدوات التصفية (Filters Section)
+           ========================================= */
+        .filters-container {
+            max-width: 1320px;
+            margin: 1rem auto 2rem;
+            padding: 0 5%;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .filter-group {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 0.6rem;
+        }
+
+        .filter-label {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            margin-left: 0.5rem;
+            min-width: 85px;
+        }
+
+        .filter-chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .chip {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            color: var(--text-muted);
+            padding: 0.45rem 1rem;
+            border-radius: 999px;
+            font-family: inherit;
+            font-size: 0.88rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .chip:hover {
+            color: var(--text-main);
+            border-color: rgba(255, 255, 255, 0.25);
+            background: rgba(255, 255, 255, 0.06);
+        }
+
+        .chip.active {
+            background: linear-gradient(135deg, rgba(6, 182, 212, 0.2), rgba(16, 185, 129, 0.2));
+            border-color: var(--neon-cyan);
+            color: #fff;
+            box-shadow: 0 0 15px rgba(6, 182, 212, 0.25);
+        }
+
+        .chip.type-chip.active {
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.25), rgba(6, 182, 212, 0.2));
+            border-color: var(--neon-purple);
+            box-shadow: 0 0 15px rgba(139, 92, 246, 0.25);
+        }
+
+        .results-meta {
+            max-width: 1320px;
+            margin: 0 auto 1.2rem;
+            padding: 0 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        /* =========================================
+           5. شبكة البطاقات (Cards Grid & Multi-Image Slider)
+           ========================================= */
+        .cards-grid {
+            max-width: 1320px;
+            margin: 0 auto 4rem;
+            padding: 0 5%;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(315px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            transition: var(--transition);
+            position: relative;
+            animation: fadeInUp 0.45s ease backwards;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(18px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .card:hover {
+            transform: translateY(-7px);
+            border-color: var(--glass-border-highlight);
+            box-shadow: 0 18px 40px -10px rgba(0, 0, 0, 0.6), 0 0 20px rgba(6, 182, 212, 0.12);
+        }
+
+        /* الغلاف الجمالي للبطاقة (Visual Banner) */
+        .card-banner {
+            height: 185px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            padding: 1rem;
+            cursor: pointer;
+        }
+
+        .card-banner::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(15, 23, 42, 0.95) 5%, transparent 65%);
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        .banner-svg-pattern {
+            position: absolute;
+            inset: 0;
+            opacity: 0.22;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .card-emoji {
+            font-size: 3.8rem;
+            z-index: 3;
+            filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.45));
+            transition: transform 0.4s ease;
+        }
+
+        .card:hover .card-emoji {
+            transform: scale(1.12) rotate(-3deg);
+        }
+
+        .card-banner-img {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 1;
+            transition: transform 0.5s ease, opacity 0.3s ease;
+        }
+
+        .card:hover .card-banner-img {
+            transform: scale(1.06);
+        }
+
+        /* أسهم ونقاط التنقل بين الصور داخل البطاقة */
+        .card-slider-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: rgba(7, 11, 20, 0.72);
+            backdrop-filter: blur(6px);
+            border: 1px solid rgba(255, 255, 255, 0.22);
+            color: #fff;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 5;
+            opacity: 0;
+            transition: var(--transition);
+        }
+
+        .card:hover .card-slider-arrow {
+            opacity: 1;
+        }
+
+        @media (hover: none) {
+            .card-slider-arrow {
+                opacity: 0.9;
+            }
+        }
+
+        .card-slider-arrow:hover {
+            background: var(--neon-cyan);
+            color: #041014;
+            border-color: var(--neon-cyan);
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .card-slider-arrow.prev {
+            right: 0.6rem;
+        }
+
+        .card-slider-arrow.next {
+            left: 0.6rem;
+        }
+
+        .card-slider-dots {
+            position: absolute;
+            bottom: 0.55rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            align-items: center;
+            gap: 0.35rem;
+            z-index: 5;
+            background: rgba(7, 11, 20, 0.55);
+            padding: 0.25rem 0.55rem;
+            border-radius: 999px;
+            backdrop-filter: blur(4px);
+        }
+
+        .slider-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.45);
+            border: none;
+            cursor: pointer;
+            padding: 0;
+            transition: var(--transition);
+        }
+
+        .slider-dot.active {
+            width: 18px;
+            border-radius: 999px;
+            background: var(--neon-cyan);
+            box-shadow: 0 0 8px var(--neon-cyan);
+        }
+
+        .photo-count-badge {
+            background: rgba(7, 11, 20, 0.76);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(6, 182, 212, 0.4);
+            color: #67e8f9;
+            padding: 0.22rem 0.6rem;
+            border-radius: 999px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        /* شارات أعلى البطاقة */
+        .card-top-badges {
+            position: absolute;
+            top: 0.85rem;
+            right: 0.85rem;
+            left: 0.85rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 4;
+            pointer-events: none;
+        }
+
+        .card-top-badges > * {
+            pointer-events: auto;
+        }
+
+        .gov-tag {
+            background: rgba(7, 11, 20, 0.72);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: #fff;
+            padding: 0.25rem 0.75rem;
+            border-radius: 999px;
+            font-size: 0.78rem;
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        .fav-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: rgba(7, 11, 20, 0.72);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: #cbd5e1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .fav-btn:hover {
+            transform: scale(1.1);
+            border-color: var(--neon-rose);
+            color: var(--neon-rose);
+        }
+
+        .fav-btn.is-fav {
+            background: rgba(244, 63, 94, 0.2);
+            border-color: var(--neon-rose);
+            color: var(--neon-rose);
+            box-shadow: 0 0 15px rgba(244, 63, 94, 0.4);
+        }
+
+        .fav-btn svg {
+            width: 18px;
+            height: 18px;
+            fill: currentColor;
+        }
+
+        /* محتوى البطاقة */
+        .card-body {
+            padding: 1.1rem 1.35rem 1.35rem;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        .type-badge {
+            display: inline-block;
+            align-self: flex-start;
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--neon-cyan);
+            background: rgba(6, 182, 212, 0.12);
+            border: 1px solid rgba(6, 182, 212, 0.25);
+            padding: 0.2rem 0.65rem;
+            border-radius: 6px;
+            margin-bottom: 0.6rem;
+        }
+
+        .card-title {
+            font-family: 'Cairo', sans-serif;
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--text-main);
+            margin-bottom: 0.45rem;
+        }
+
+        .card-desc {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            line-height: 1.55;
+            margin-bottom: 1rem;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .card-meta-row {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.82rem;
+            color: #a7f3d0;
+            background: rgba(16, 185, 129, 0.08);
+            border: 1px solid rgba(16, 185, 129, 0.18);
+            padding: 0.45rem 0.75rem;
+            border-radius: var(--radius-sm);
+            margin-top: auto;
+            margin-bottom: 1rem;
+        }
+
+        .card-actions {
+            display: grid;
+            grid-template-columns: 1fr auto auto;
+            gap: 0.5rem;
+        }
+
+        .btn-details {
+            background: linear-gradient(135deg, var(--neon-cyan), #0284c7);
+            color: #fff;
+            border: none;
+            padding: 0.65rem 0.9rem;
+            border-radius: var(--radius-sm);
+            font-family: inherit;
+            font-size: 0.9rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.35rem;
+        }
+
+        .btn-details:hover {
+            filter: brightness(1.12);
+            box-shadow: 0 6px 20px rgba(6, 182, 212, 0.35);
+        }
+
+        .btn-add-trip {
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid var(--glass-border);
+            color: var(--text-main);
+            padding: 0.65rem 0.75rem;
+            border-radius: var(--radius-sm);
+            font-family: inherit;
+            font-size: 0.84rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.3rem;
+        }
+
+        .btn-add-trip:hover {
+            background: rgba(16, 185, 129, 0.18);
+            border-color: var(--neon-emerald);
+            color: #6ee7b7;
+        }
+
+        .btn-add-trip.in-trip {
+            background: rgba(16, 185, 129, 0.22);
+            border-color: var(--neon-emerald);
+            color: #6ee7b7;
+        }
+
+        .btn-map-pin {
+            background: rgba(245, 158, 11, 0.12);
+            border: 1px solid rgba(245, 158, 11, 0.35);
+            color: #fcd34d;
+            padding: 0.65rem 0.72rem;
+            border-radius: var(--radius-sm);
+            font-size: 0.95rem;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+        }
+
+        .btn-map-pin:hover {
+            background: rgba(245, 158, 11, 0.25);
+            border-color: var(--neon-amber);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 14px rgba(245, 158, 11, 0.25);
+        }
+
+        /* حالة عدم وجود نتائج */
+        .empty-state {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 4rem 1.5rem;
+            background: var(--glass-bg);
+            border: 1px dashed var(--glass-border);
+            border-radius: var(--radius-lg);
+        }
+
+        .empty-state span {
+            font-size: 3.5rem;
+            display: block;
+            margin-bottom: 1rem;
+        }
+
+        .empty-state h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .empty-state p {
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+        }
+
+        /* =========================================
+           6. النافذة المنبثقة للتفاصيل ومعرض الصور (Details Modal & Gallery)
+           ========================================= */
+        .modal-backdrop {
+            position: fixed;
+            inset: 0;
+            background: rgba(3, 7, 18, 0.82);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            z-index: 1000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal-backdrop.open {
+            display: flex;
+            opacity: 1;
+        }
+
+        .modal-box {
+            background: #0d1424;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 24px;
+            width: 100%;
+            max-width: 720px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.75), 0 0 30px rgba(6, 182, 212, 0.15);
+            transform: scale(0.94);
+            transition: transform 0.3s ease;
+            position: relative;
+        }
+
+        .modal-backdrop.open .modal-box {
+            transform: scale(1);
+        }
+
+        .modal-hero {
+            height: 240px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+            overflow: hidden;
+            transition: height 0.3s ease;
+        }
+
+        .modal-hero.has-gallery {
+            height: 310px;
+        }
+
+        .modal-hero::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, #0d1424 4%, transparent 55%);
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .modal-hero-img {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal-gallery-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(7, 11, 20, 0.75);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            color: #fff;
+            font-size: 1.1rem;
+            cursor: pointer;
+            z-index: 5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+        }
+
+        .modal-gallery-btn:hover {
+            background: var(--neon-cyan);
+            color: #041014;
+            border-color: var(--neon-cyan);
+            transform: translateY(-50%) scale(1.08);
+        }
+
+        .modal-gallery-btn.prev {
+            right: 1rem;
+        }
+
+        .modal-gallery-btn.next {
+            left: 1rem;
+        }
+
+        .modal-gallery-counter {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: rgba(7, 11, 20, 0.78);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(6, 182, 212, 0.45);
+            color: #67e8f9;
+            padding: 0.3rem 0.8rem;
+            border-radius: 999px;
+            font-size: 0.82rem;
+            font-weight: 700;
+            z-index: 5;
+        }
+
+        .modal-thumbs-strip {
+            display: flex;
+            gap: 0.55rem;
+            overflow-x: auto;
+            padding: 0.5rem 0 0.85rem;
+            margin-bottom: 0.6rem;
+            scrollbar-width: thin;
+        }
+
+        .modal-thumb-item {
+            width: 68px;
+            height: 50px;
+            border-radius: 10px;
+            object-fit: cover;
+            cursor: pointer;
+            border: 2px solid transparent;
+            opacity: 0.6;
+            flex-shrink: 0;
+            transition: var(--transition);
+        }
+
+        .modal-thumb-item:hover {
+            opacity: 0.9;
+        }
+
+        .modal-thumb-item.active {
+            opacity: 1;
+            border-color: var(--neon-cyan);
+            box-shadow: 0 0 12px rgba(6, 182, 212, 0.45);
+            transform: scale(1.04);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(7, 11, 20, 0.75);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #fff;
+            font-size: 1.2rem;
+            cursor: pointer;
+            z-index: 6;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+        }
+
+        .modal-close:hover {
+            background: var(--neon-rose);
+            border-color: var(--neon-rose);
+            transform: rotate(90deg);
+        }
+
+        .modal-content {
+            padding: 0 1.8rem 1.8rem;
+            position: relative;
+            z-index: 2;
+            margin-top: -1.2rem;
+        }
+
+        .modal-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .modal-title {
+            font-family: 'Cairo', sans-serif;
+            font-size: 1.75rem;
+            font-weight: 800;
+            margin-bottom: 0.8rem;
+        }
+
+        .modal-full-desc {
+            color: #cbd5e1;
+            font-size: 0.98rem;
+            line-height: 1.75;
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .info-panel {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-md);
+            padding: 1rem;
+        }
+
+        .info-panel h4 {
+            color: var(--neon-cyan);
+            font-size: 0.95rem;
+            margin-bottom: 0.6rem;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .info-panel ul {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 0.45rem;
+        }
+
+        .info-panel li {
+            font-size: 0.88rem;
+            color: var(--text-muted);
+            position: relative;
+            padding-right: 1.1rem;
+        }
+
+        .info-panel li::before {
+            content: '✦';
+            position: absolute;
+            right: 0;
+            color: var(--neon-emerald);
+            font-size: 0.75rem;
+        }
+
+        .tip-box {
+            background: rgba(245, 158, 11, 0.08);
+            border: 1px solid rgba(245, 158, 11, 0.25);
+            border-radius: var(--radius-md);
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            gap: 0.75rem;
+            align-items: flex-start;
+        }
+
+        .tip-box-icon {
+            font-size: 1.4rem;
+        }
+
+        .tip-box p {
+            font-size: 0.88rem;
+            color: #fde68a;
+        }
+
+        .modal-footer {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            border-top: 1px solid var(--glass-border);
+            padding-top: 1.2rem;
+        }
+
+        .btn-primary-large {
+            flex: 1;
+            min-width: 190px;
+            background: linear-gradient(135deg, var(--neon-emerald), var(--neon-cyan));
+            color: #031512;
+            border: none;
+            padding: 0.85rem 1.2rem;
+            border-radius: var(--radius-sm);
+            font-family: inherit;
+            font-size: 0.98rem;
+            font-weight: 800;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary-large:hover {
+            filter: brightness(1.08);
+            box-shadow: 0 8px 25px rgba(16, 185, 129, 0.35);
+        }
+
+        .btn-primary-large.added {
+            background: rgba(16, 185, 129, 0.2);
+            border: 1px solid var(--neon-emerald);
+            color: #6ee7b7;
+        }
+
+        .btn-maps-large {
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.2), rgba(234, 88, 12, 0.2));
+            border: 1px solid rgba(245, 158, 11, 0.5);
+            color: #fde68a;
+            padding: 0.85rem 1.15rem;
+            border-radius: var(--radius-sm);
+            font-family: inherit;
+            font-size: 0.95rem;
+            font-weight: 700;
+            text-decoration: none;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.45rem;
+        }
+
+        .btn-maps-large:hover {
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.32), rgba(234, 88, 12, 0.32));
+            border-color: var(--neon-amber);
+            color: #fff;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(245, 158, 11, 0.25);
+        }
+
+        /* =========================================
+           7. القائمة الجانبية لمخطط الرحلة (Trip Drawer)
+           ========================================= */
+        .drawer-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(3, 7, 18, 0.75);
+            backdrop-filter: blur(6px);
+            z-index: 1100;
+            display: none;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .drawer-overlay.open {
+            display: block;
+            opacity: 1;
+        }
+
+        .trip-drawer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            max-width: 420px;
+            height: 100vh;
+            background: #0b1120;
+            border-right: 1px solid rgba(255, 255, 255, 0.12);
+            z-index: 1200;
+            transform: translateX(-100%);
+            transition: transform 0.35s cubic-bezier(0.25, 0.8, 0.25, 1);
+            display: flex;
+            flex-direction: column;
+            box-shadow: 15px 0 40px rgba(0, 0, 0, 0.6);
+        }
+
+        .trip-drawer.open {
+            transform: translateX(0);
+        }
+
+        .drawer-header {
+            padding: 1.3rem 1.5rem;
+            border-bottom: 1px solid var(--glass-border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .drawer-header h3 {
+            font-family: 'Cairo', sans-serif;
+            font-size: 1.25rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .drawer-stats {
+            padding: 0.85rem 1.5rem;
+            background: rgba(6, 182, 212, 0.08);
+            border-bottom: 1px solid var(--glass-border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.88rem;
+            color: #67e8f9;
+        }
+
+        .drawer-body {
+            flex: 1;
+            overflow-y: auto;
+            padding: 1.2rem 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.85rem;
+        }
+
+        .trip-item {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-md);
+            padding: 0.85rem 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.75rem;
+            transition: var(--transition);
+        }
+
+        .trip-item:hover {
+            border-color: rgba(255, 255, 255, 0.22);
+        }
+
+        .trip-item-info {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            flex: 1;
+            min-width: 0;
+        }
+
+        .trip-step-num {
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--neon-cyan), var(--neon-emerald));
+            color: #041014;
+            font-weight: 800;
+            font-size: 0.8rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .trip-item-text h4 {
+            font-size: 0.95rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .trip-item-text span {
+            font-size: 0.78rem;
+            color: var(--text-muted);
+        }
+
+        .trip-item-controls {
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        .icon-mini-btn {
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid var(--glass-border);
+            color: var(--text-muted);
+            width: 28px;
+            height: 28px;
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            transition: var(--transition);
+            text-decoration: none;
+        }
+
+        .icon-mini-btn:hover:not(:disabled) {
+            background: rgba(255, 255, 255, 0.15);
+            color: #fff;
+        }
+
+        .icon-mini-btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        .icon-mini-btn.del:hover {
+            background: rgba(244, 63, 94, 0.2);
+            border-color: var(--neon-rose);
+            color: var(--neon-rose);
+        }
+
+        .drawer-footer {
+            padding: 1.2rem 1.5rem;
+            border-top: 1px solid var(--glass-border);
+            display: flex;
+            flex-direction: column;
+            gap: 0.65rem;
+            background: rgba(7, 11, 20, 0.9);
+        }
+
+        .btn-copy-trip {
+            background: linear-gradient(135deg, var(--neon-cyan), var(--neon-emerald));
+            color: #041014;
+            border: none;
+            padding: 0.8rem;
+            border-radius: var(--radius-sm);
+            font-family: inherit;
+            font-size: 0.95rem;
+            font-weight: 800;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .btn-copy-trip:hover:not(:disabled) {
+            filter: brightness(1.1);
+        }
+
+        .btn-copy-trip:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
+        .btn-clear-trip {
+            background: transparent;
+            border: 1px solid rgba(244, 63, 94, 0.4);
+            color: #fda4af;
+            padding: 0.6rem;
+            border-radius: var(--radius-sm);
+            font-family: inherit;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .btn-clear-trip:hover:not(:disabled) {
+            background: rgba(244, 63, 94, 0.15);
+        }
+
+        .btn-clear-trip:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        /* =========================================
+           8. إشعارات منبثقة (Toast Notification)
+           ========================================= */
+        .toast {
+            position: fixed;
+            bottom: 1.5rem;
+            right: 50%;
+            transform: translateX(50%) translateY(100px);
+            background: rgba(15, 23, 42, 0.95);
+            border: 1px solid var(--neon-cyan);
+            color: #fff;
+            padding: 0.75rem 1.4rem;
+            border-radius: 999px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(6, 182, 212, 0.3);
+            z-index: 2000;
+            opacity: 0;
+            transition: all 0.35s cubic-bezier(0.25, 0.8, 0.25, 1);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            white-space: nowrap;
+        }
+
+        .toast.show {
+            transform: translateX(50%) translateY(0);
+            opacity: 1;
+        }
+
+        /* =========================================
+           9. لوحة تحكم المطور (Developer Panel & Multi-Image Manager)
+           ========================================= */
+        .dev-fab {
+            position: fixed;
+            bottom: 1.5rem;
+            left: 1.5rem;
+            z-index: 1500;
+            background: linear-gradient(135deg, #8b5cf6, #ec4899);
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            padding: 0.75rem 1.2rem;
+            border-radius: 999px;
+            font-family: inherit;
+            font-size: 0.9rem;
+            font-weight: 800;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            box-shadow: 0 10px 25px rgba(139, 92, 246, 0.45);
+            transition: var(--transition);
+        }
+
+        .dev-fab:hover {
+            transform: translateY(-3px) scale(1.03);
+            box-shadow: 0 14px 30px rgba(236, 72, 153, 0.55);
+        }
+
+        .dev-modal-box {
+            max-width: 820px;
+            border-color: rgba(139, 92, 246, 0.4);
+        }
+
+        .dev-tabs {
+            display: flex;
+            gap: 0.5rem;
+            border-bottom: 1px solid var(--glass-border);
+            padding-bottom: 0.85rem;
+            margin-bottom: 1.25rem;
+            flex-wrap: wrap;
+        }
+
+        .dev-tab-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--glass-border);
+            color: var(--text-muted);
+            padding: 0.5rem 1rem;
+            border-radius: var(--radius-sm);
+            font-family: inherit;
+            font-size: 0.88rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .dev-tab-btn.active {
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.25), rgba(236, 72, 153, 0.25));
+            border-color: var(--neon-purple);
+            color: #fff;
+        }
+
+        .dev-section {
+            display: none;
+        }
+
+        .dev-section.active {
+            display: block;
+        }
+
+        .dev-form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .dev-field {
+            display: flex;
+            flex-direction: column;
+            gap: 0.35rem;
+        }
+
+        .dev-field.full {
+            grid-column: 1 / -1;
+        }
+
+        .dev-field label {
+            font-size: 0.82rem;
+            font-weight: 700;
+            color: #cbd5e1;
+        }
+
+        .dev-input {
+            background: rgba(15, 23, 42, 0.9);
+            border: 1px solid var(--glass-border);
+            color: var(--text-main);
+            padding: 0.65rem 0.85rem;
+            border-radius: var(--radius-sm);
+            font-family: inherit;
+            font-size: 0.9rem;
+        }
+
+        .dev-input:focus {
+            outline: none;
+            border-color: var(--neon-purple);
+        }
+
+        .dev-manage-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.65rem;
+            max-height: 360px;
+            overflow-y: auto;
+            padding-left: 0.3rem;
+        }
+
+        .dev-manage-item {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-sm);
+            padding: 0.7rem 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .file-upload-box {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.75rem;
+            background: rgba(15, 23, 42, 0.9);
+            border: 1px dashed rgba(139, 92, 246, 0.55);
+            padding: 0.65rem 0.9rem;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .file-upload-box:hover {
+            border-color: var(--neon-cyan);
+            background: rgba(30, 41, 59, 0.9);
+        }
+
+        .file-upload-preview {
+            width: 44px;
+            height: 44px;
+            border-radius: 8px;
+            object-fit: cover;
+            border: 1px solid var(--glass-border);
+            display: none;
+        }
+
+        /* شبكة معاينة الصور المتعددة في لوحة المطور */
+        .multi-img-preview-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(84px, 1fr));
+            gap: 0.65rem;
+            margin-top: 0.6rem;
+        }
+
+        .multi-thumb-card {
+            position: relative;
+            aspect-ratio: 4 / 3;
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            background: #0f172a;
+        }
+
+        .multi-thumb-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .multi-thumb-remove {
+            position: absolute;
+            top: 4px;
+            left: 4px;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background: rgba(244, 63, 94, 0.92);
+            color: #fff;
+            border: none;
+            font-size: 0.75rem;
+            font-weight: 800;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
+            transition: var(--transition);
+        }
+
+        .multi-thumb-remove:hover {
+            transform: scale(1.12);
+            background: #e11d48;
+        }
+
+        .multi-thumb-badge {
+            position: absolute;
+            bottom: 3px;
+            right: 4px;
+            background: rgba(7, 11, 20, 0.8);
+            color: #67e8f9;
+            font-size: 0.65rem;
+            font-weight: 700;
+            padding: 1px 5px;
+            border-radius: 4px;
+        }
+
+        .url-append-row {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 0.45rem;
+        }
+
+        /* =========================================
+           10. التجاوب مع الشاشات الصغيرة (Responsive)
+           ========================================= */
+        @media (max-width: 640px) {
+            .navbar {
+                padding: 0.8rem 4%;
+            }
+            .brand-text span {
+                display: none;
+            }
+            .nav-btn span.btn-label {
+                display: none;
+            }
+            .hero {
+                padding: 2.2rem 4% 1.5rem;
+            }
+            .filter-label {
+                width: 100%;
+                margin-bottom: 0.2rem;
+            }
+            .cards-grid {
+                grid-template-columns: 1fr;
+            }
+            .modal-content {
+                padding: 0 1.2rem 1.4rem;
+            }
+            .modal-hero.has-gallery {
+                height: 240px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- خلفية ضوئية متدرجة -->
+    <div class="ambient-bg">
+        <div class="glow-orb orb-1"></div>
+        <div class="glow-orb orb-2"></div>
+        <div class="glow-orb orb-3"></div>
+    </div>
+
+    <!-- الشريط العلوي -->
+    <header class="navbar">
+        <a href="#" class="brand" onclick="resetAllFilters(); return false;">
+            <div class="brand-logo" id="brandLogoContainer" title="اضغط 4 مرات لفتح وضع المطور">🏔️</div>
+            <div class="brand-text">
+                <h1 id="siteMainTitle">اكتشف كوردستان</h1>
+                <span id="siteSubTitle">دليلك السياحي الذكي في العراق</span>
+            </div>
+        </a>
+
+        <div class="nav-actions">
+            <button class="nav-btn" id="toggleFavFilterBtn" title="عرض الأماكن المفضلة">
+                <span>❤️</span>
+                <span class="btn-label">المفضلة</span>
+                <span class="badge rose" id="favCountBadge">0</span>
+            </button>
+
+            <button class="nav-btn" id="openTripDrawerBtn" title="مخطط رحلتي">
+                <span>🗺️</span>
+                <span class="btn-label">مخطط رحلتي</span>
+                <span class="badge" id="tripCountBadge">0</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- الواجهة الرئيسية والبحث -->
+    <section class="hero">
+        <div class="hero-pill">
+            <span>✨</span>
+            <span id="heroPillText">طبيعة ساحرة، تاريخ عريق، وكرم ضيافة لا يُنسى</span>
+        </div>
+        <h2 id="heroHeadingText">استكشف أجمل الوجهات السياحية في <span>إقليم كوردستان</span></h2>
+        <p id="heroDescText">من قمم الجبال الشاهقة والشلالات المتدفقة إلى القلاع الأثرية والمنتجعات الجبلية في أربيل، دهوك، السليمانية، وحلبجة.</p>
+
+        <div class="search-wrapper">
+            <span class="search-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+            </span>
+            <input type="text" id="searchInput" class="search-input" placeholder="ابحث عن شلال، قلعة، جبل، أو مدينة (مثال: قلعة أربيل)...">
+            <button class="clear-search" id="clearSearchBtn" title="مسح البحث">✕</button>
+        </div>
+    </section>
+
+    <!-- أزرار التصفية -->
+    <section class="filters-container">
+        <!-- تصفية حسب المحافظة -->
+        <div class="filter-group">
+            <span class="filter-label">📍 المحافظة:</span>
+            <div class="filter-chips" id="govFilters">
+                <button class="chip active" data-gov="all">الكل</button>
+                <button class="chip" data-gov="أربيل">أربيل</button>
+                <button class="chip" data-gov="دهوك">دهوك</button>
+                <button class="chip" data-gov="السليمانية">السليمانية</button>
+                <button class="chip" data-gov="حلبجة">حلبجة</button>
+            </div>
+        </div>
+
+        <!-- تصفية حسب نوع السياحة -->
+        <div class="filter-group">
+            <span class="filter-label">🧭 نوع السياحة:</span>
+            <div class="filter-chips" id="typeFilters">
+                <button class="chip type-chip active" data-type="all">الكل</button>
+                <button class="chip type-chip" data-type="طبيعة وشلالات">🌊 طبيعة وشلالات</button>
+                <button class="chip type-chip" data-type="تاريخ وآثار">🏛️ تاريخ وآثار</button>
+                <button class="chip type-chip" data-type="منتجعات ومصايف">🚠 منتجعات ومصايف</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- شريط عدد النتائج -->
+    <div class="results-meta">
+        <span id="resultsCounter">يتم عرض 1 من أصل 1 وجهة سياحية</span>
+        <span id="activeModeHint" style="color: var(--neon-cyan);"></span>
+    </div>
+
+    <!-- شبكة البطاقات السياحية -->
+    <main class="cards-grid" id="cardsGrid"></main>
+
+    <!-- النافذة المنبثقة لتفاصيل الوجهة ومعرض الصور -->
+    <div class="modal-backdrop" id="detailsModal">
+        <div class="modal-box" role="dialog" aria-modal="true">
+            <button class="modal-close" id="closeModalBtn" title="إغلاق">✕</button>
+            <div class="modal-hero" id="modalHero">
+                <span class="card-emoji" id="modalEmoji" style="font-size: 4.5rem;"></span>
+            </div>
+            <div class="modal-content">
+                <!-- شريط الصور المصغرة داخل التفاصيل -->
+                <div class="modal-thumbs-strip" id="modalThumbsStrip" style="display: none;"></div>
+
+                <div class="modal-tags" id="modalTags"></div>
+                <h2 class="modal-title" id="modalTitle"></h2>
+                <p class="modal-full-desc" id="modalFullDesc"></p>
+
+                <div class="modal-info-grid">
+                    <div class="info-panel">
+                        <h4>🎯 أبرز الأنشطة المتاحة</h4>
+                        <ul id="modalActivities"></ul>
+                    </div>
+                    <div class="info-panel">
+                        <h4>🗓️ معلومات الزيارة والمناخ</h4>
+                        <ul id="modalVisitInfo"></ul>
+                    </div>
+                </div>
+
+                <div class="tip-box">
+                    <span class="tip-box-icon">💡</span>
+                    <p id="modalTip"></p>
+                </div>
+
+                <div class="modal-footer">
+                    <button class="btn-primary-large" id="modalAddTripBtn"></button>
+                    <a class="btn-maps-large" id="modalMapLinkBtn" href="#" target="_blank" rel="noopener noreferrer">
+                        <span>📍</span>
+                        <span>الموقع على الخرائط</span>
+                    </a>
+                    <button class="nav-btn" id="modalFavBtn" style="padding: 0.85rem 1.1rem;"></button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- النافذة الجانبية لمخطط الرحلة -->
+    <div class="drawer-overlay" id="drawerOverlay"></div>
+    <aside class="trip-drawer" id="tripDrawer" aria-label="مخطط رحلتي">
+        <div class="drawer-header">
+            <h3>🗺️ مخطط رحلتي</h3>
+            <button class="icon-mini-btn" id="closeDrawerBtn" style="width: 34px; height: 34px;">✕</button>
+        </div>
+        <div class="drawer-stats">
+            <span>الوجهات المختارة في مسارك:</span>
+            <strong id="drawerTotalCount">0 وجهات</strong>
+        </div>
+        <div class="drawer-body" id="tripListContainer"></div>
+        <div class="drawer-footer">
+            <button class="btn-copy-trip" id="copyTripBtn" disabled>
+                <span>📋</span>
+                <span>نسخ خطة الرحلة للمشاركة</span>
+            </button>
+            <button class="btn-clear-trip" id="clearTripBtn" disabled>مسح جميع الوجهات من المخطط</button>
+        </div>
+    </aside>
+
+    <!-- إشعار Toast -->
+    <div class="toast" id="toastMsg"></div>
+
+    <!-- زر المطور العائم -->
+    <button class="dev-fab" id="openDevPanelBtn" title="لوحة تحكم المطور" style="display: none;">
+        <span>🛠️</span>
+        <span>لوحة المطور</span>
+    </button>
+
+    <!-- نافذة إدخال كلمة السر للمطور -->
+    <div class="modal-backdrop" id="devAuthModal">
+        <div class="modal-box" style="max-width: 400px; padding: 2rem; text-align: center;">
+            <button class="modal-close" id="closeAuthModalBtn">✕</button>
+            <div style="font-size: 3rem; margin-bottom: 0.5rem;">🔐</div>
+            <h3 style="font-family: 'Cairo', sans-serif; font-size: 1.3rem; margin-bottom: 0.5rem;">منطقة المطورين فقط</h3>
+            <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1.2rem;">يرجى إدخال كلمة السر للدخول إلى لوحة التحكم والتعديل على البطاقات.</p>
+            <form id="devAuthForm">
+                <input type="password" id="devPassInput" class="dev-input" placeholder="أدخل كلمة السر هنا..." style="text-align: center; font-size: 1.1rem; letter-spacing: 2px; margin-bottom: 1rem; width: 100%;" required>
+                <button type="submit" class="btn-primary-large" style="width: 100%;">دخول 🔓</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- نافذة تحكم المطور الشاملة -->
+    <div class="modal-backdrop" id="devPanelModal">
+        <div class="modal-box dev-modal-box" role="dialog" aria-modal="true">
+            <button class="modal-close" id="closeDevPanelBtn" title="إغلاق">✕</button>
+            <div style="padding: 1.5rem 1.8rem;">
+                <div style="display: flex; align-items: center; gap: 0.6rem; margin-bottom: 1rem;">
+                    <span style="font-size: 1.6rem;">🛠️</span>
+                    <div>
+                        <h2 style="font-family: 'Cairo', sans-serif; font-size: 1.4rem;">لوحة تحكم المطور الشاملة</h2>
+                        <p style="font-size: 0.82rem; color: var(--text-muted);">إدارة الصور المتعددة، روابط خرائط جوجل، تعديل وإضافة البطاقات السياحية</p>
+                    </div>
+                </div>
+
+                <!-- تبويبات لوحة المطور -->
+                <div class="dev-tabs">
+                    <button class="dev-tab-btn active" data-dev-tab="addCardTab">➕ إضافة بطاقة جديدة</button>
+                    <button class="dev-tab-btn" data-dev-tab="manageCardsTab">🗂️ إدارة وتعديل البطاقات</button>
+                    <button class="dev-tab-btn" data-dev-tab="brandingTab">🖼️ صورة البروفايل والواجهة</button>
+                </div>
+
+                <!-- 1. قسم إضافة بطاقة جديدة -->
+                <div class="dev-section active" id="addCardTab">
+                    <form id="devAddCardForm">
+                        <div class="dev-form-grid">
+                            <div class="dev-field">
+                                <label>اسم الوجهة السياحية *</label>
+                                <input type="text" id="devPlaceName" class="dev-input" placeholder="مثال: جبل أزمر" required>
+                            </div>
+                            <div class="dev-field">
+                                <label>المحافظة *</label>
+                                <select id="devPlaceGov" class="dev-input">
+                                    <option value="أربيل">أربيل</option>
+                                    <option value="دهوك">دهوك</option>
+                                    <option value="السليمانية">السليمانية</option>
+                                    <option value="حلبجة">حلبجة</option>
+                                </select>
+                            </div>
+                            <div class="dev-field">
+                                <label>نوع السياحة *</label>
+                                <select id="devPlaceType" class="dev-input">
+                                    <option value="طبيعة وشلالات">طبيعة وشلالات</option>
+                                    <option value="تاريخ وآثار">تاريخ وآثار</option>
+                                    <option value="منتجعات ومصايف">منتجعات ومصايف</option>
+                                </select>
+                            </div>
+                            <div class="dev-field">
+                                <label>الأيقونة التعبيرية (Emoji)</label>
+                                <input type="text" id="devPlaceEmoji" class="dev-input" value="🏔️" maxlength="4">
+                            </div>
+
+                            <!-- خانة رابط الموقع على خرائط جوجل -->
+                            <div class="dev-field full">
+                                <label>📍 رابط الموقع على خرائط جوجل (Google Maps URL)</label>
+                                <input type="url" id="devPlaceMapUrl" class="dev-input" placeholder="https://maps.google.com/... أو https://goo.gl/maps/...">
+                            </div>
+
+                            <!-- خانة إضافة صور متعددة -->
+                            <div class="dev-field full">
+                                <label>📸 صور البطاقة المتعددة (يمكنك اختيار أكثر من صورة من الاستوديو أو إضافة روابط)</label>
+                                <label class="file-upload-box" for="devPlaceImageFiles">
+                                    <div style="display:flex; align-items:center; gap:0.5rem;">
+                                        <span style="font-size:1.3rem;">🖼️</span>
+                                        <span id="devPlaceFileLabel" style="font-size:0.85rem; color:var(--text-muted);">اضغط لاختيار صورة أو عدة صور من الاستوديو...</span>
+                                    </div>
+                                    <span style="font-size:0.78rem; color:var(--neon-cyan); font-weight:700;">+ اختيار صور</span>
+                                </label>
+                                <input type="file" id="devPlaceImageFiles" accept="image/*" multiple style="display:none;">
+                                
+                                <div class="url-append-row">
+                                    <input type="url" id="devPlaceImgUrlAppend" class="dev-input" style="flex:1;" placeholder="أو الصق رابط صورة مباشر (https://...) واضغط إضافة">
+                                    <button type="button" class="nav-btn" id="devAddImgUrlBtn" style="white-space:nowrap;">+ إضافة رابط</button>
+                                </div>
+
+                                <div class="multi-img-preview-grid" id="devAddImagesGrid"></div>
+                            </div>
+
+                            <div class="dev-field">
+                                <label>أفضل موسم للزيارة</label>
+                                <input type="text" id="devPlaceSeason" class="dev-input" value="الربيع والصيف (أبريل - سبتمبر)">
+                            </div>
+                            <div class="dev-field">
+                                <label>لون خلفية البطاقة (عند عدم وجود صور)</label>
+                                <select id="devPlaceColor" class="dev-input">
+                                    <option value="linear-gradient(135deg, #0e7490, #0284c7, #0f172a)">أزرق مائي</option>
+                                    <option value="linear-gradient(135deg, #065f46, #0d9488, #0f172a)">أخضر زمردي</option>
+                                    <option value="linear-gradient(135deg, #78350f, #b45309, #0f172a)">ذهبي تراثي</option>
+                                    <option value="linear-gradient(135deg, #312e81, #4f46e5, #0f172a)">بنفسجي جبلي</option>
+                                </select>
+                            </div>
+                            <div class="dev-field full">
+                                <label>وصف مختصر للبطاقة *</label>
+                                <input type="text" id="devPlaceShortDesc" class="dev-input" placeholder="سطر تعريفي جذاب يظهر على البطاقة..." required>
+                            </div>
+                            <div class="dev-field full">
+                                <label>الوصف التفصيلي الكامل *</label>
+                                <textarea id="devPlaceFullDesc" class="dev-input" rows="3" placeholder="اكتب تفاصيل المكان وتاريخه ومميزاته..." required></textarea>
+                            </div>
+                            <div class="dev-field full">
+                                <label>أبرز الأنشطة (افصل بينها بفاصلة ،)</label>
+                                <input type="text" id="devPlaceActivities" class="dev-input" placeholder="التصوير الفوتوغرافي، المشي الجبلي، تناول الطعام التقليدي">
+                            </div>
+                            <div class="dev-field full">
+                                <label>نصيحة للزائرين</label>
+                                <input type="text" id="devPlaceTip" class="dev-input" placeholder="مثال: يفضل زيارته قبيل الغروب للاستمتاع بالإطلالة الليلية.">
+                            </div>
+                        </div>
+                        <button type="submit" class="btn-primary-large" style="width: 100%;">
+                            <span>✨ حفظ وإضافة البطاقة فوراً</span>
+                        </button>
+                    </form>
+                </div>
+
+                <!-- 2. قسم إدارة وحذف وتعديل البطاقات -->
+                <div class="dev-section" id="manageCardsTab">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.85rem; flex-wrap: wrap; gap: 0.5rem;">
+                        <span style="font-size: 0.88rem; color: var(--text-muted);">اختر أي بطاقة لتعديل صورها المتعددة أو رابط خرائط جوجل الخاص بها:</span>
+                        <button type="button" class="nav-btn" id="resetDefaultCardsBtn" style="font-size: 0.8rem; border-color: var(--neon-amber); color: #fde68a;">🔄 استعادة الافتراضي</button>
+                    </div>
+                    <div class="dev-manage-list" id="devManageCardsList"></div>
+                </div>
+
+                <!-- 3. قسم تعديل بطاقة قائمة حالية -->
+                <div class="dev-section" id="editCardTab">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                        <h3 style="font-size: 1.1rem; color: var(--neon-cyan); font-family: 'Cairo', sans-serif;">✏️ تعديل البطاقة السياحية</h3>
+                        <button type="button" class="icon-mini-btn" onclick="switchDevTab('manageCardsTab')" style="width: auto; padding: 0.3rem 0.8rem;">← العودة للإدارة</button>
+                    </div>
+                    <form id="devEditCardForm">
+                        <input type="hidden" id="editPlaceId">
+                        <div class="dev-form-grid">
+                            <div class="dev-field">
+                                <label>اسم الوجهة السياحية *</label>
+                                <input type="text" id="editPlaceName" class="dev-input" required>
+                            </div>
+                            <div class="dev-field">
+                                <label>المحافظة *</label>
+                                <select id="editPlaceGov" class="dev-input">
+                                    <option value="أربيل">أربيل</option>
+                                    <option value="دهوك">دهوك</option>
+                                    <option value="السليمانية">السليمانية</option>
+                                    <option value="حلبجة">حلبجة</option>
+                                </select>
+                            </div>
+                            <div class="dev-field">
+                                <label>نوع السياحة *</label>
+                                <select id="editPlaceType" class="dev-input">
+                                    <option value="طبيعة وشلالات">طبيعة وشلالات</option>
+                                    <option value="تاريخ وآثار">تاريخ وآثار</option>
+                                    <option value="منتجعات ومصايف">منتجعات ومصايف</option>
+                                </select>
+                            </div>
+                            <div class="dev-field">
+                                <label>الأيقونة التعبيرية (Emoji)</label>
+                                <input type="text" id="editPlaceEmoji" class="dev-input" maxlength="4">
+                            </div>
+
+                            <!-- خانة رابط الموقع على خرائط جوجل في التعديل -->
+                            <div class="dev-field full">
+                                <label>📍 رابط الموقع على خرائط جوجل (Google Maps URL)</label>
+                                <input type="url" id="editPlaceMapUrl" class="dev-input" placeholder="https://maps.google.com/... أو https://goo.gl/maps/...">
+                            </div>
+
+                            <!-- خانة تعديل الصور المتعددة -->
+                            <div class="dev-field full">
+                                <label>📸 إدارة صور البطاقة المتعددة (إضافة صور جديدة أو حذف الصور الحالية)</label>
+                                <label class="file-upload-box" for="editPlaceImageFiles">
+                                    <div style="display:flex; align-items:center; gap:0.5rem;">
+                                        <span style="font-size:1.3rem;">🖼️</span>
+                                        <span id="editPlaceFileLabel" style="font-size:0.85rem; color:var(--text-muted);">اضغط لإضافة صورة أو عدة صور من الاستوديو...</span>
+                                    </div>
+                                    <span style="font-size:0.78rem; color:var(--neon-cyan); font-weight:700;">+ إضافة صور</span>
+                                </label>
+                                <input type="file" id="editPlaceImageFiles" accept="image/*" multiple style="display:none;">
+
+                                <div class="url-append-row">
+                                    <input type="url" id="editPlaceImgUrlAppend" class="dev-input" style="flex:1;" placeholder="أو الصق رابط صورة مباشر (https://...) واضغط إضافة">
+                                    <button type="button" class="nav-btn" id="editAddImgUrlBtn" style="white-space:nowrap;">+ إضافة رابط</button>
+                                </div>
+
+                                <div class="multi-img-preview-grid" id="devEditImagesGrid"></div>
+                            </div>
+
+                            <div class="dev-field">
+                                <label>أفضل موسم للزيارة</label>
+                                <input type="text" id="editPlaceSeason" class="dev-input">
+                            </div>
+                            <div class="dev-field">
+                                <label>لون خلفية البطاقة</label>
+                                <select id="editPlaceColor" class="dev-input">
+                                    <option value="linear-gradient(135deg, #0e7490, #0284c7, #0f172a)">أزرق مائي</option>
+                                    <option value="linear-gradient(135deg, #065f46, #0d9488, #0f172a)">أخضر زمردي</option>
+                                    <option value="linear-gradient(135deg, #78350f, #b45309, #0f172a)">ذهبي تراثي</option>
+                                    <option value="linear-gradient(135deg, #312e81, #4f46e5, #0f172a)">بنفسجي جبلي</option>
+                                </select>
+                            </div>
+                            <div class="dev-field full">
+                                <label>وصف مختصر للبطاقة *</label>
+                                <input type="text" id="editPlaceShortDesc" class="dev-input" required>
+                            </div>
+                            <div class="dev-field full">
+                                <label>الوصف التفصيلي الكامل *</label>
+                                <textarea id="editPlaceFullDesc" class="dev-input" rows="3" required></textarea>
+                            </div>
+                            <div class="dev-field full">
+                                <label>أبرز الأنشطة (افصل بينها بفاصلة ،)</label>
+                                <input type="text" id="editPlaceActivities" class="dev-input">
+                            </div>
+                            <div class="dev-field full">
+                                <label>نصيحة للزائرين</label>
+                                <input type="text" id="editPlaceTip" class="dev-input">
+                            </div>
+                        </div>
+                        <div style="display: flex; gap: 0.75rem;">
+                            <button type="submit" class="btn-primary-large" style="flex: 2;">💾 حفظ التعديلات</button>
+                            <button type="button" class="nav-btn" onclick="switchDevTab('manageCardsTab')" style="flex: 1; justify-content: center;">إلغاء</button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- 4. قسم تعديل صورة البروفايل والواجهة -->
+                <div class="dev-section" id="brandingTab">
+                    <form id="devBrandingForm">
+                        <div class="dev-form-grid">
+                            <div class="dev-field full">
+                                <label>📸 تحميل صورة البروفايل من الموبايل / الجهاز</label>
+                                <label class="file-upload-box" for="devProfileImageFile">
+                                    <div style="display:flex; align-items:center; gap:0.5rem;">
+                                        <span style="font-size:1.3rem;">🤳</span>
+                                        <span id="devProfileFileLabel" style="font-size:0.85rem; color:var(--text-muted);">اضغط لاختيار صورة البروفايل من الاستوديو...</span>
+                                    </div>
+                                    <img id="devProfileImgPreview" class="file-upload-preview" alt="معاينة البروفايل">
+                                </label>
+                                <input type="file" id="devProfileImageFile" accept="image/*" style="display:none;">
+                            </div>
+                            <div class="dev-field full">
+                                <label>أو رابط صورة البروفايل / الشعار (URL)</label>
+                                <input type="url" id="devProfileImgUrl" class="dev-input" placeholder="https://example.com/my-avatar.jpg">
+                            </div>
+                            <div class="dev-field">
+                                <label>أيقونة بديلة للبروفايل (Emoji)</label>
+                                <input type="text" id="devProfileEmoji" class="dev-input" value="🏔️" maxlength="4">
+                            </div>
+                            <div class="dev-field">
+                                <label>اسم الموقع الرئيسي</label>
+                                <input type="text" id="devSiteTitleInput" class="dev-input" value="اكتشف كوردستان">
+                            </div>
+                            <div class="dev-field full">
+                                <label>الوصف الفرعي تحت الاسم</label>
+                                <input type="text" id="devSiteSubInput" class="dev-input" value="دليلك السياحي الذكي في العراق">
+                            </div>
+                            <div class="dev-field full">
+                                <label>نص الشارة الترحيبية العلوية</label>
+                                <input type="text" id="devHeroPillInput" class="dev-input" value="طبيعة ساحرة، تاريخ عريق، وكرم ضيافة لا يُنسى">
+                            </div>
+                            <div class="dev-field full">
+                                <label>الفقرة الترحيبية الرئيسية</label>
+                                <textarea id="devHeroDescInput" class="dev-input" rows="2"></textarea>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn-primary-large" style="width: 100%;">
+                            <span>💾 حفظ إعدادات البروفايل والواجهة</span>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        /* =========================================
+           1. قاعدة بيانات الوجهات السياحية (بطاقة واحدة فقط)
+           ========================================= */
+        const defaultDestinationsData = [
+            {
+                id: 1,
+                name: "قلعة أربيل التاريخية",
+                governorate: "أربيل",
+                type: "تاريخ وآثار",
+                emoji: "🏰",
+                images: [],
+                mapUrl: "https://www.google.com/maps/search/?api=1&query=Erbil+Citadel+Kurdistan",
+                gradient: "linear-gradient(135deg, #78350f, #b45309, #0f172a)",
+                shortDesc: "أقدم مستوطنة بشرية مأهولة باستمرار في العالم وأيقونة التراث العالمي في قلب أربيل.",
+                bestSeason: "الربيع والخريف (مارس - مايو / سبتمبر - نوفمبر)",
+                fullDesc: "تتربع قلعة أربيل على تل أثري مرتفع وسط العاصمة أربيل، ويعود تاريخ الاستيطان فيها إلى أكثر من 6000 عام. أُدرجت ضمن قائمة التراث العالمي لليونسكو، وتحيط بها أسوار تاريخية ويقع أسفلها سوق القيصرية العريق ومتحف النسيج الكوردي.",
+                activities: [
+                    "التجول في الأزقة التراثية وزيارة متحف النسيج الكوردي",
+                    "التسوق في سوق القيصرية المسقوف أسفل القلعة",
+                    "تذوق الشاي الكوردي والحلويات المحلية في المقاهي المحيطة",
+                    "التقاط صور بانورامية لوسط مدينة أربيل"
+                ],
+                visitInfo: [
+                    "أفضل وقت: فترتا الصباح الباكر أو قبيل الغروب",
+                    "الدخول: مجاني للساحة الرئيسية والمتاحف برسوم رمزية",
+                    "سهولة الوصول: تقع في مركز مدينة أربيل تماماً"
+                ],
+                tip: "ننصح بدمج زيارة القلعة مع جولة مسائية في سوق القيصرية والنافورات الراقصة المقابلة للقلعة للاستمتاع بالأجواء الحيوية."
+            }
+        ];
+
+        /* =========================================
+           2. إدارة الحالة (State Management & LocalStorage)
+           ========================================= */
+        const STORAGE_KEYS = {
+            FAVORITES: 'kurdistan_guide_favs_v2',
+            TRIP: 'kurdistan_guide_trip_v2',
+            DESTINATIONS: 'kurdistan_guide_places_single_v2',
+            BRANDING: 'kurdistan_guide_branding_v2'
+        };
+
+        function normalizePlaceData(place) {
+            const imgs = Array.isArray(place.images)
+                ? [...place.images]
+                : (place.imageUrl && place.imageUrl.trim() !== '' ? [place.imageUrl] : []);
+            return {
+                ...place,
+                images: imgs,
+                mapUrl: place.mapUrl || ''
+            };
+        }
+
+        function getPlaceImages(place) {
+            if (Array.isArray(place.images) && place.images.length > 0) return place.images;
+            if (place.imageUrl && place.imageUrl.trim() !== '') return [place.imageUrl];
+            return [];
+        }
+
+        function getPlaceMapLink(place) {
+            if (place.mapUrl && place.mapUrl.trim() !== '') return place.mapUrl.trim();
+            return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(place.name + ' ' + place.governorate + ' كوردستان')}`;
+        }
+
+        let storedDestinations = null;
+        try {
+            storedDestinations = JSON.parse(localStorage.getItem(STORAGE_KEYS.DESTINATIONS));
+        } catch (e) {
+            storedDestinations = null;
+        }
+        let destinationsData = (storedDestinations || defaultDestinationsData).map(normalizePlaceData);
+
+        const defaultBranding = {
+            profileImgUrl: '',
+            profileEmoji: '🏔️',
+            siteTitle: 'اكتشف كوردستان',
+            siteSub: 'دليلك السياحي الذكي في العراق',
+            heroPill: 'طبيعة ساحرة، تاريخ عريق، وكرم ضيافة لا يُنسى',
+            heroDesc: 'من قمم الجبال الشاهقة والشلالات المتدفقة إلى القلاع الأثرية والمنتجعات الجبلية في أربيل، دهوك، السليمانية، وحلبجة.'
+        };
+
+        let brandingConfig = { ...defaultBranding };
+        try {
+            const savedBranding = JSON.parse(localStorage.getItem(STORAGE_KEYS.BRANDING));
+            if (savedBranding) brandingConfig = savedBranding;
+        } catch (e) {}
+
+        let savedFavs = [];
+        let savedTrip = [];
+        try {
+            savedFavs = JSON.parse(localStorage.getItem(STORAGE_KEYS.FAVORITES)) || [];
+            savedTrip = JSON.parse(localStorage.getItem(STORAGE_KEYS.TRIP)) || [];
+        } catch (e) {}
+
+        let state = {
+            searchQuery: '',
+            selectedGov: 'all',
+            selectedType: 'all',
+            showOnlyFavorites: false,
+            favorites: savedFavs,
+            tripIds: savedTrip,
+            activeModalId: null,
+            activeModalSlide: 0,
+            cardSlideIndices: {}
+        };
+
+        /* =========================================
+           3. عناصر الواجهة (DOM Elements)
+           ========================================= */
+        const cardsGrid = document.getElementById('cardsGrid');
+        const searchInput = document.getElementById('searchInput');
+        const clearSearchBtn = document.getElementById('clearSearchBtn');
+        const govFilters = document.getElementById('govFilters');
+        const typeFilters = document.getElementById('typeFilters');
+        const resultsCounter = document.getElementById('resultsCounter');
+        const activeModeHint = document.getElementById('activeModeHint');
+        
+        const favCountBadge = document.getElementById('favCountBadge');
+        const tripCountBadge = document.getElementById('tripCountBadge');
+        const toggleFavFilterBtn = document.getElementById('toggleFavFilterBtn');
+        
+        const detailsModal = document.getElementById('detailsModal');
+        const closeModalBtn = document.getElementById('closeModalBtn');
+        
+        const openTripDrawerBtn = document.getElementById('openTripDrawerBtn');
+        const closeDrawerBtn = document.getElementById('closeDrawerBtn');
+        const drawerOverlay = document.getElementById('drawerOverlay');
+        const tripDrawer = document.getElementById('tripDrawer');
+        const tripListContainer = document.getElementById('tripListContainer');
+        const drawerTotalCount = document.getElementById('drawerTotalCount');
+        const copyTripBtn = document.getElementById('copyTripBtn');
+        const clearTripBtn = document.getElementById('clearTripBtn');
+
+        /* =========================================
+           4. الدوال المساعدة (Helper Functions)
+           ========================================= */
+        function compressMobileImage(file, maxWidth, quality, callback) {
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                const img = new Image();
+                img.onload = function() {
+                    const canvas = document.createElement('canvas');
+                    let width = img.width;
+                    let height = img.height;
+
+                    if (width > maxWidth) {
+                        height = Math.round((height * maxWidth) / width);
+                        width = maxWidth;
+                    }
+
+                    canvas.width = width;
+                    canvas.height = height;
+
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(img, 0, 0, width, height);
+
+                    const dataUrl = canvas.toDataURL('image/jpeg', quality);
+                    callback(dataUrl);
+                };
+                img.src = event.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function saveState() {
+            try {
+                localStorage.setItem(STORAGE_KEYS.FAVORITES, JSON.stringify(state.favorites));
+                localStorage.setItem(STORAGE_KEYS.TRIP, JSON.stringify(state.tripIds));
+            } catch (e) {}
+            updateBadges();
+        }
+
+        function saveDestinationsToStorage() {
+            try {
+                localStorage.setItem(STORAGE_KEYS.DESTINATIONS, JSON.stringify(destinationsData));
+            } catch (err) {
+                showToast('⚠️ مساحة التخزين ممتلئة، حاول تقليل عدد الصور المرفوعة أو استخدم روابط صور.');
+            }
+        }
+
+        function updateBadges() {
+            favCountBadge.textContent = state.favorites.length;
+            tripCountBadge.textContent = state.tripIds.length;
+            
+            if (state.showOnlyFavorites) {
+                toggleFavFilterBtn.classList.add('active-fav');
+            } else {
+                toggleFavFilterBtn.classList.remove('active-fav');
+            }
+        }
+
+        let toastTimeout;
+        function showToast(message) {
+            const toast = document.getElementById('toastMsg');
+            toast.textContent = message;
+            toast.classList.add('show');
+            clearTimeout(toastTimeout);
+            toastTimeout = setTimeout(() => {
+                toast.classList.remove('show');
+            }, 2600);
+        }
+
+        function getDecorativeSvg() {
+            return `
+                <svg class="banner-svg-pattern" viewBox="0 0 400 160" preserveAspectRatio="none">
+                    <path d="M0,160 L0,110 Q80,60 160,100 T320,80 L400,110 L400,160 Z" fill="rgba(255,255,255,0.18)"/>
+                    <path d="M0,160 L0,130 Q120,80 240,120 T400,95 L400,160 Z" fill="rgba(255,255,255,0.12)"/>
+                    <circle cx="330" cy="40" r="24" fill="rgba(255,255,255,0.15)"/>
+                </svg>
+            `;
+        }
+
+        /* =========================================
+           5. تصفية وعرض البطاقات مع السلايدر المتعدد
+           ========================================= */
+        function getFilteredDestinations() {
+            return destinationsData.filter(item => {
+                if (state.showOnlyFavorites && !state.favorites.includes(item.id)) return false;
+                if (state.selectedGov !== 'all' && item.governorate !== state.selectedGov) return false;
+                if (state.selectedType !== 'all' && item.type !== state.selectedType) return false;
+
+                if (state.searchQuery.trim() !== '') {
+                    const q = state.searchQuery.trim().toLowerCase();
+                    const inName = item.name.toLowerCase().includes(q);
+                    const inShort = item.shortDesc.toLowerCase().includes(q);
+                    const inFull = item.fullDesc.toLowerCase().includes(q);
+                    const inGov = item.governorate.toLowerCase().includes(q);
+                    if (!inName && !inShort && !inFull && !inGov) return false;
+                }
+                return true;
+            });
+        }
+
+        function changeCardSlide(placeId, direction, event) {
+            if (event) event.stopPropagation();
+            const place = destinationsData.find(p => p.id === placeId);
+            if (!place) return;
+            const images = getPlaceImages(place);
+            if (images.length <= 1) return;
+
+            const current = state.cardSlideIndices[placeId] || 0;
+            const next = (current + direction + images.length) % images.length;
+            state.cardSlideIndices[placeId] = next;
+            updateCardSlideDOM(placeId, next, images);
+        }
+
+        function goToCardSlide(placeId, slideIndex, event) {
+            if (event) event.stopPropagation();
+            const place = destinationsData.find(p => p.id === placeId);
+            if (!place) return;
+            const images = getPlaceImages(place);
+            if (slideIndex < 0 || slideIndex >= images.length) return;
+
+            state.cardSlideIndices[placeId] = slideIndex;
+            updateCardSlideDOM(placeId, slideIndex, images);
+        }
+
+        function updateCardSlideDOM(placeId, slideIndex, images) {
+            const imgEl = document.getElementById(`card-img-${placeId}`);
+            if (imgEl) {
+                imgEl.src = images[slideIndex];
+            }
+            const dotsContainer = document.getElementById(`card-dots-${placeId}`);
+            if (dotsContainer) {
+                dotsContainer.querySelectorAll('.slider-dot').forEach((dot, idx) => {
+                    dot.classList.toggle('active', idx === slideIndex);
+                });
+            }
+        }
+
+        function renderCards() {
+            const filtered = getFilteredDestinations();
+            
+            resultsCounter.textContent = `يتم عرض ${filtered.length} من أصل ${destinationsData.length} وجهة سياحية`;
+            activeModeHint.textContent = state.showOnlyFavorites ? '❤️ وضع عرض المفضلة فقط' : '';
+
+            if (filtered.length === 0) {
+                cardsGrid.innerHTML = `
+                    <div class="empty-state">
+                        <span>🧭</span>
+                        <h3>لم نجد وجهات مطابقة لخياراتك</h3>
+                        <p>جرّب تغيير كلمات البحث أو إعادة ضبط أزرار التصفية لاستكشاف جميع المعالم.</p>
+                        <button class="btn-details" style="margin: 0 auto;" onclick="resetAllFilters()">عرض جميع الوجهات</button>
+                    </div>
+                `;
+                return;
+            }
+
+            cardsGrid.innerHTML = filtered.map((place, index) => {
+                const isFav = state.favorites.includes(place.id);
+                const isInTrip = state.tripIds.includes(place.id);
+                const images = getPlaceImages(place);
+                const currentIdx = Math.min(state.cardSlideIndices[place.id] || 0, Math.max(0, images.length - 1));
+                const mapLink = getPlaceMapLink(place);
+
+                let visualContent = '';
+                if (images.length > 0) {
+                    visualContent = `<img id="card-img-${place.id}" src="${images[currentIdx]}" class="card-banner-img" alt="${place.name}" onerror="this.style.display='none'">`;
+                    if (images.length > 1) {
+                        visualContent += `
+                            <button type="button" class="card-slider-arrow prev" onclick="changeCardSlide(${place.id}, -1, event)" title="الصورة السابقة">❯</button>
+                            <button type="button" class="card-slider-arrow next" onclick="changeCardSlide(${place.id}, 1, event)" title="الصورة التالية">❮</button>
+                            <div class="card-slider-dots" id="card-dots-${place.id}">
+                                ${images.map((_, i) => `<button type="button" class="slider-dot ${i === currentIdx ? 'active' : ''}" onclick="goToCardSlide(${place.id}, ${i}, event)" aria-label="صورة ${i + 1}"></button>`).join('')}
+                            </div>
+                        `;
+                    }
+                } else {
+                    visualContent = `${getDecorativeSvg()}<span class="card-emoji">${place.emoji || '🏔️'}</span>`;
+                }
+
+                return `
+                    <article class="card" style="animation-delay: ${index * 0.04}s">
+                        <div class="card-banner" onclick="openDetailsModal(${place.id})" style="background: ${place.gradient || 'linear-gradient(135deg, #0e7490, #0284c7)'};">
+                            ${visualContent}
+                            <div class="card-top-badges">
+                                <div style="display:flex; align-items:center; gap:0.4rem; flex-wrap:wrap;">
+                                    <span class="gov-tag">📍 ${place.governorate}</span>
+                                    ${images.length > 1 ? `<span class="photo-count-badge">📸 ${images.length}</span>` : ''}
+                                </div>
+                                <button class="fav-btn ${isFav ? 'is-fav' : ''}" 
+                                        onclick="toggleFavorite(${place.id}, event)" 
+                                        title="${isFav ? 'إزالة من المفضلة' : 'إضافة للمفضلة'}">
+                                    <svg viewBox="0 0 24 24">
+                                        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="card-body">
+                            <span class="type-badge">${place.type}</span>
+                            <h3 class="card-title">${place.name}</h3>
+                            <p class="card-desc">${place.shortDesc}</p>
+                            
+                            <div class="card-meta-row">
+                                <span>🗓️</span>
+                                <span>أفضل موسم: ${place.bestSeason ? place.bestSeason.split('(')[0] : 'طوال العام'}</span>
+                            </div>
+
+                            <div class="card-actions">
+                                <button class="btn-details" onclick="openDetailsModal(${place.id})">
+                                    <span>التفاصيل</span>
+                                    <span>←</span>
+                                </button>
+                                <button class="btn-add-trip ${isInTrip ? 'in-trip' : ''}" 
+                                        onclick="toggleTripItem(${place.id})"
+                                        title="${isInTrip ? 'مضاف في مخطط رحلتك' : 'أضف إلى مخطط رحلتي'}">
+                                    <span>${isInTrip ? '✓ في رحلتي' : '+ لرحلتي'}</span>
+                                </button>
+                                <a class="btn-map-pin" 
+                                   href="${mapLink}" 
+                                   target="_blank" 
+                                   rel="noopener noreferrer"
+                                   title="فتح الموقع على خرائط جوجل">
+                                    📍
+                                </a>
+                            </div>
+                        </div>
+                    </article>
+                `;
+            }).join('');
+        }
+
+        /* =========================================
+           6. التفاعلات: المفضلة ومخطط الرحلة
+           ========================================= */
+        function toggleFavorite(id, event) {
+            if (event) event.stopPropagation();
+            const place = destinationsData.find(p => p.id === id);
+            if (!place) return;
+            const idx = state.favorites.indexOf(id);
+
+            if (idx === -1) {
+                state.favorites.push(id);
+                showToast(`❤️ تمت إضافة "${place.name}" إلى المفضلة`);
+            } else {
+                state.favorites.splice(idx, 1);
+                showToast(`💔 تمت إزالة "${place.name}" من المفضلة`);
+            }
+
+            saveState();
+            renderCards();
+            if (state.activeModalId === id) {
+                updateModalButtons(id);
+            }
+        }
+
+        function toggleTripItem(id) {
+            const place = destinationsData.find(p => p.id === id);
+            if (!place) return;
+            const idx = state.tripIds.indexOf(id);
+
+            if (idx === -1) {
+                state.tripIds.push(id);
+                showToast(`🗺️ أُضيفت "${place.name}" إلى مخطط رحلتك`);
+            } else {
+                state.tripIds.splice(idx, 1);
+                showToast(`🗑️ أُزيلت "${place.name}" من مخطط رحلتك`);
+            }
+
+            saveState();
+            renderCards();
+            renderTripDrawer();
+            if (state.activeModalId === id) {
+                updateModalButtons(id);
+            }
+        }
+
+        function moveTripItem(index, direction) {
+            const newIndex = index + direction;
+            if (newIndex < 0 || newIndex >= state.tripIds.length) return;
+            
+            const temp = state.tripIds[index];
+            state.tripIds[index] = state.tripIds[newIndex];
+            state.tripIds[newIndex] = temp;
+            
+            saveState();
+            renderTripDrawer();
+        }
+
+        function renderTripDrawer() {
+            const count = state.tripIds.length;
+            drawerTotalCount.textContent = `${count} ${count === 1 ? 'وجهة' : count === 2 ? 'وجهتان' : count <= 10 ? 'وجهات' : 'وجهة'}`;
+            
+            copyTripBtn.disabled = count === 0;
+            clearTripBtn.disabled = count === 0;
+
+            if (count === 0) {
+                tripListContainer.innerHTML = `
+                    <div style="text-align: center; padding: 3rem 1rem; color: var(--text-muted);">
+                        <div style="font-size: 3rem; margin-bottom: 0.75rem;">🧳</div>
+                        <h4 style="color: var(--text-main); margin-bottom: 0.4rem;">مخطط رحلتك فارغ حالياً</h4>
+                        <p style="font-size: 0.88rem;">اضغط على زر <strong>"+ لرحلتي"</strong> في أي بطاقة لتجميع وجهاتك المفضلة وترتيب مسار رحلتك.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            tripListContainer.innerHTML = state.tripIds.map((id, idx) => {
+                const place = destinationsData.find(p => p.id === id);
+                if (!place) return '';
+                const mapLink = getPlaceMapLink(place);
+                return `
+                    <div class="trip-item">
+                        <div class="trip-item-info">
+                            <span class="trip-step-num">${idx + 1}</span>
+                            <span style="font-size: 1.5rem;">${place.emoji || '🏔️'}</span>
+                            <div class="trip-item-text">
+                                <h4>${place.name}</h4>
+                                <span>📍 ${place.governorate} • ${place.type}</span>
+                            </div>
+                        </div>
+                        <div class="trip-item-controls">
+                            <a class="icon-mini-btn" href="${mapLink}" target="_blank" rel="noopener noreferrer" title="الموقع على الخرائط">📍</a>
+                            <button class="icon-mini-btn" onclick="moveTripItem(${idx}, -1)" ${idx === 0 ? 'disabled' : ''} title="تقديم للأعلى">▲</button>
+                            <button class="icon-mini-btn" onclick="moveTripItem(${idx}, 1)" ${idx === count - 1 ? 'disabled' : ''} title="تأخير للأسفل">▼</button>
+                            <button class="icon-mini-btn del" onclick="toggleTripItem(${place.id})" title="حذف من المخطط">✕</button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        /* =========================================
+           7. النافذة المنبثقة للتفاصيل ومعرض الصور
+           ========================================= */
+        function renderModalGallery(place) {
+            const modalHero = document.getElementById('modalHero');
+            const modalEmojiEl = document.getElementById('modalEmoji');
+            const thumbsStrip = document.getElementById('modalThumbsStrip');
+            const images = getPlaceImages(place);
+
+            modalHero.querySelectorAll('.modal-hero-img, .modal-gallery-btn, .modal-gallery-counter').forEach(el => el.remove());
+
+            if (images.length > 0) {
+                modalHero.classList.add('has-gallery');
+                modalEmojiEl.style.display = 'none';
+                const currentIdx = Math.min(state.activeModalSlide, images.length - 1);
+                state.activeModalSlide = currentIdx;
+
+                const img = document.createElement('img');
+                img.src = images[currentIdx];
+                img.className = 'modal-hero-img';
+                img.alt = place.name;
+                modalHero.prepend(img);
+
+                if (images.length > 1) {
+                    const counter = document.createElement('div');
+                    counter.className = 'modal-gallery-counter';
+                    counter.textContent = `📸 صورة ${currentIdx + 1} من ${images.length}`;
+                    modalHero.appendChild(counter);
+
+                    const prevBtn = document.createElement('button');
+                    prevBtn.type = 'button';
+                    prevBtn.className = 'modal-gallery-btn prev';
+                    prevBtn.innerHTML = '❯';
+                    prevBtn.title = 'الصورة السابقة';
+                    prevBtn.onclick = () => {
+                        state.activeModalSlide = (state.activeModalSlide - 1 + images.length) % images.length;
+                        renderModalGallery(place);
+                    };
+
+                    const nextBtn = document.createElement('button');
+                    nextBtn.type = 'button';
+                    nextBtn.className = 'modal-gallery-btn next';
+                    nextBtn.innerHTML = '❮';
+                    nextBtn.title = 'الصورة التالية';
+                    nextBtn.onclick = () => {
+                        state.activeModalSlide = (state.activeModalSlide + 1) % images.length;
+                        renderModalGallery(place);
+                    };
+
+                    modalHero.appendChild(prevBtn);
+                    modalHero.appendChild(nextBtn);
+
+                    thumbsStrip.style.display = 'flex';
+                    thumbsStrip.innerHTML = images.map((src, idx) => `
+                        <img src="${src}" 
+                             class="modal-thumb-item ${idx === currentIdx ? 'active' : ''}" 
+                             alt="صورة ${idx + 1}"
+                             onclick="selectModalGallerySlide(${idx})">
+                    `).join('');
+                } else {
+                    thumbsStrip.style.display = 'none';
+                    thumbsStrip.innerHTML = '';
+                }
+            } else {
+                modalHero.classList.remove('has-gallery');
+                modalEmojiEl.style.display = 'block';
+                modalEmojiEl.textContent = place.emoji || '🏔️';
+                thumbsStrip.style.display = 'none';
+                thumbsStrip.innerHTML = '';
+            }
+        }
+
+        function selectModalGallerySlide(index) {
+            const place = destinationsData.find(p => p.id === state.activeModalId);
+            if (!place) return;
+            state.activeModalSlide = index;
+            renderModalGallery(place);
+        }
+
+        function openDetailsModal(id) {
+            const place = destinationsData.find(p => p.id === id);
+            if (!place) return;
+            state.activeModalId = id;
+            state.activeModalSlide = state.cardSlideIndices[id] || 0;
+
+            const modalHero = document.getElementById('modalHero');
+            modalHero.style.background = place.gradient || 'linear-gradient(135deg, #0e7490, #0284c7)';
+            
+            renderModalGallery(place);
+            
+            document.getElementById('modalTags').innerHTML = `
+                <span class="gov-tag">📍 محافظة ${place.governorate}</span>
+                <span class="type-badge" style="margin:0;">${place.type}</span>
+            `;
+
+            document.getElementById('modalTitle').textContent = place.name;
+            document.getElementById('modalFullDesc').textContent = place.fullDesc;
+
+            const activitiesArr = place.activities || [];
+            document.getElementById('modalActivities').innerHTML = activitiesArr.length > 0
+                ? activitiesArr.map(act => `<li>${act}</li>`).join('')
+                : '<li>استكشاف الطبيعة والتقاط الصور التذكارية</li>';
+
+            const visitInfoArr = place.visitInfo || [
+                `المحافظة: ${place.governorate}`,
+                `التصنيف السياحي: ${place.type}`
+            ];
+
+            document.getElementById('modalVisitInfo').innerHTML = [
+                `<li><strong>أفضل موسم:</strong> ${place.bestSeason || 'طوال العام'}</li>`,
+                ...visitInfoArr.map(info => `<li>${info}</li>`)
+            ].join('');
+
+            document.getElementById('modalTip').innerHTML = `<strong>نصيحة للزائرين:</strong> ${place.tip || 'تأكد من إحضار كاميرتك لالتقاط أجمل اللحظات.'}`;
+
+            const modalMapLinkBtn = document.getElementById('modalMapLinkBtn');
+            modalMapLinkBtn.href = getPlaceMapLink(place);
+
+            updateModalButtons(id);
+
+            detailsModal.classList.add('open');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function updateModalButtons(id) {
+            const isFav = state.favorites.includes(id);
+            const isInTrip = state.tripIds.includes(id);
+
+            const modalAddTripBtn = document.getElementById('modalAddTripBtn');
+            modalAddTripBtn.className = `btn-primary-large ${isInTrip ? 'added' : ''}`;
+            modalAddTripBtn.innerHTML = isInTrip 
+                ? '<span>✓ مضاف في مخطط رحلتي (إزالة)</span>' 
+                : '<span>🗺️ أضف إلى مخطط رحلتي</span>';
+            modalAddTripBtn.onclick = () => toggleTripItem(id);
+
+            const modalFavBtn = document.getElementById('modalFavBtn');
+            modalFavBtn.className = `nav-btn ${isFav ? 'active-fav' : ''}`;
+            modalFavBtn.innerHTML = isFav ? '❤️ في المفضلة' : '🤍 أضف للمفضلة';
+            modalFavBtn.onclick = () => toggleFavorite(id);
+        }
+
+        function closeDetailsModal() {
+            detailsModal.classList.remove('open');
+            state.activeModalId = null;
+            document.body.style.overflow = '';
+        }
+        
+        async function checkPassword(userInput) {
+    try {
+        const res = await fetch('/api/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ password: userInput })
+        });
+        const data = await res.json();
+        return data.status === 'success';
+    } catch (error) {
+        return false;
+    }
+}
+
+        /* =========================================
+           9. مستمعات الأحداث الأساسية
+           ========================================= */
+        searchInput.addEventListener('input', (e) => {
+            state.searchQuery = e.target.value;
+            clearSearchBtn.style.display = state.searchQuery ? 'flex' : 'none';
+            renderCards();
+        });
+
+        clearSearchBtn.addEventListener('click', () => {
+            searchInput.value = '';
+            state.searchQuery = '';
+            clearSearchBtn.style.display = 'none';
+            searchInput.focus();
+            renderCards();
+        });
+
+        govFilters.addEventListener('click', (e) => {
+            const btn = e.target.closest('.chip');
+            if (!btn) return;
+            govFilters.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+            btn.classList.add('active');
+            state.selectedGov = btn.dataset.gov;
+            renderCards();
+        });
+
+        typeFilters.addEventListener('click', (e) => {
+            const btn = e.target.closest('.chip');
+            if (!btn) return;
+            typeFilters.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+            btn.classList.add('active');
+            state.selectedType = btn.dataset.type;
+            renderCards();
+        });
+
+        toggleFavFilterBtn.addEventListener('click', () => {
+            state.showOnlyFavorites = !state.showOnlyFavorites;
+            updateBadges();
+            renderCards();
+        });
+
+        function resetAllFilters() {
+            state.searchQuery = '';
+            state.selectedGov = 'all';
+            state.selectedType = 'all';
+            state.showOnlyFavorites = false;
+            
+            searchInput.value = '';
+            clearSearchBtn.style.display = 'none';
+            
+            govFilters.querySelectorAll('.chip').forEach(c => c.classList.toggle('active', c.dataset.gov === 'all'));
+            typeFilters.querySelectorAll('.chip').forEach(c => c.classList.toggle('active', c.dataset.type === 'all'));
+            
+            updateBadges();
+            renderCards();
+        }
+
+        closeModalBtn.addEventListener('click', closeDetailsModal);
+        detailsModal.addEventListener('click', (e) => {
+            if (e.target === detailsModal) closeDetailsModal();
+        });
+
+        function openTripDrawer() {
+            renderTripDrawer();
+            drawerOverlay.classList.add('open');
+            tripDrawer.classList.add('open');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeTripDrawer() {
+            drawerOverlay.classList.remove('open');
+            tripDrawer.classList.remove('open');
+            document.body.style.overflow = '';
+        }
+
+        openTripDrawerBtn.addEventListener('click', openTripDrawer);
+        closeDrawerBtn.addEventListener('click', closeTripDrawer);
+        drawerOverlay.addEventListener('click', closeTripDrawer);
+
+        copyTripBtn.addEventListener('click', () => {
+            if (state.tripIds.length === 0) return;
+            
+            const lines = [
+                "🗺️ خطة رحلتي السياحية في إقليم كوردستان العراق:",
+                "----------------------------------------"
+            ];
+            
+            state.tripIds.forEach((id, index) => {
+                const place = destinationsData.find(p => p.id === id);
+                if (place) {
+                    const mapLink = getPlaceMapLink(place);
+                    lines.push(`${index + 1}. ${place.emoji || '🏔️'} ${place.name} (محافظة ${place.governorate}) - ${place.type}`);
+                    lines.push(`   📍 الموقع على الخرائط: ${mapLink}`);
+                }
+            });
+            
+            lines.push("----------------------------------------");
+            lines.push(`إجمالي الوجهات: ${state.tripIds.length} وجهات`);
+
+            const textToCopy = lines.join('\n');
+            const tempTextarea = document.createElement('textarea');
+            tempTextarea.value = textToCopy;
+            tempTextarea.style.position = 'fixed';
+            tempTextarea.style.opacity = '0';
+            document.body.appendChild(tempTextarea);
+            tempTextarea.select();
+            
+            try {
+                document.execCommand('copy');
+                showToast('✅ تم نسخ خطة رحلتك مع روابط الخرائط بنجاح!');
+            } catch (err) {
+                showToast('⚠️ تعذر النسخ التلقائي، يرجى المحاولة مرة أخرى.');
+            }
+            
+            document.body.removeChild(tempTextarea);
+        });
+
+        clearTripBtn.addEventListener('click', () => {
+            if (state.tripIds.length === 0) return;
+            state.tripIds = [];
+            saveState();
+            renderCards();
+            renderTripDrawer();
+            showToast('🗑️ تم مسح جميع الوجهات من مخطط الرحلة');
+        });
+
+        /* =========================================
+           10. لوحة تحكم المطور وإدارة الصور المتعددة والخرائط
+           ========================================= */
+        let addCardImagesList = [];
+        let editCardImagesList = [];
+        let uploadedProfileImageBase64 = '';
+        let logoClickCount = 0;
+        let logoClickTimer = null;
+
+        function switchDevTab(tabId) {
+            document.querySelectorAll('.dev-tab-btn').forEach(b => {
+                b.classList.toggle('active', b.dataset.devTab === tabId);
+            });
+            document.querySelectorAll('.dev-section').forEach(sec => {
+                sec.classList.remove('active');
+            });
+            const targetSec = document.getElementById(tabId);
+            if (targetSec) targetSec.classList.add('active');
+        }
+
+        function renderMultiImageGrid(mode) {
+            const list = mode === 'add' ? addCardImagesList : editCardImagesList;
+            const gridEl = document.getElementById(mode === 'add' ? 'devAddImagesGrid' : 'devEditImagesGrid');
+            const labelEl = document.getElementById(mode === 'add' ? 'devPlaceFileLabel' : 'editPlaceFileLabel');
+
+            if (list.length > 0) {
+                labelEl.textContent = `✅ تم إرفاق ${list.length} ${list.length === 1 ? 'صورة' : list.length === 2 ? 'صورتين' : 'صور'} (اضغط لإضافة المزيد)`;
+            } else {
+                labelEl.textContent = 'اضغط لاختيار صورة أو عدة صور من الاستوديو...';
+            }
+
+            gridEl.innerHTML = list.map((src, idx) => `
+                <div class="multi-thumb-card">
+                    <img src="${src}" alt="صورة ${idx + 1}">
+                    <button type="button" class="multi-thumb-remove" onclick="removeDevImage('${mode}', ${idx})" title="حذف هذه الصورة">✕</button>
+                    <span class="multi-thumb-badge">#${idx + 1}</span>
+                </div>
+            `).join('');
+        }
+
+        function removeDevImage(mode, index) {
+            if (mode === 'add') {
+                addCardImagesList.splice(index, 1);
+                renderMultiImageGrid('add');
+            } else {
+                editCardImagesList.splice(index, 1);
+                renderMultiImageGrid('edit');
+            }
+        }
+
+        function handleMultiFilesSelection(files, mode) {
+            if (!files || files.length === 0) return;
+            const fileArr = Array.from(files);
+            fileArr.forEach(file => {
+                compressMobileImage(file, 750, 0.72, (compressedDataUrl) => {
+                    if (mode === 'add') {
+                        addCardImagesList.push(compressedDataUrl);
+                        renderMultiImageGrid('add');
+                    } else {
+                        editCardImagesList.push(compressedDataUrl);
+                        renderMultiImageGrid('edit');
+                    }
+                });
+            });
+        }
+
+        function renderDevManageList() {
+            const devManageCardsList = document.getElementById('devManageCardsList');
+            if (!devManageCardsList) return;
+
+            if (destinationsData.length === 0) {
+                devManageCardsList.innerHTML = `<p style="text-align:center; color:var(--text-muted); padding:1.5rem;">لا توجد بطاقات حالياً. أضف بطاقة جديدة أو استعد الافتراضي.</p>`;
+                return;
+            }
+
+            devManageCardsList.innerHTML = destinationsData.map(place => {
+                const imgs = getPlaceImages(place);
+                return `
+                    <div class="dev-manage-item">
+                        <div style="display:flex; align-items:center; gap:0.7rem;">
+                            ${imgs.length > 0
+                                ? `<img src="${imgs[0]}" style="width:44px; height:44px; border-radius:8px; object-fit:cover;">` 
+                                : `<span style="font-size:1.5rem;">${place.emoji || '🏔️'}</span>`}
+                            <div>
+                                <strong style="display:block; font-size:0.95rem;">${place.name}</strong>
+                                <span style="font-size:0.78rem; color:var(--text-muted);">
+                                    📍 ${place.governorate} • ${place.type} 
+                                    ${imgs.length > 0 ? `• 📸 ${imgs.length} صور` : ''}
+                                    ${place.mapUrl ? '• 🗺️ رابط خرائط مضاف' : ''}
+                                </span>
+                            </div>
+                        </div>
+                        <div style="display:flex; gap:0.4rem;">
+                            <button type="button" class="icon-mini-btn" style="width:auto; padding:0.35rem 0.65rem; gap:0.3rem; border-color:var(--neon-cyan); color:#67e8f9;" onclick="openEditDestinationModal(${place.id})">
+                                <span>✏️ تعديل</span>
+                            </button>
+                            <button type="button" class="icon-mini-btn del" style="width:auto; padding:0.35rem 0.65rem; gap:0.3rem;" onclick="deleteDestinationCard(${place.id})">
+                                <span>🗑️ حذف</span>
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function openEditDestinationModal(id) {
+            const place = destinationsData.find(p => p.id === id);
+            if (!place) return;
+
+            document.getElementById('editPlaceId').value = place.id;
+            document.getElementById('editPlaceName').value = place.name;
+            document.getElementById('editPlaceGov').value = place.governorate;
+            document.getElementById('editPlaceType').value = place.type;
+            document.getElementById('editPlaceEmoji').value = place.emoji || '🏔️';
+            document.getElementById('editPlaceMapUrl').value = place.mapUrl || '';
+            document.getElementById('editPlaceSeason').value = place.bestSeason || '';
+            document.getElementById('editPlaceColor').value = place.gradient || 'linear-gradient(135deg, #0e7490, #0284c7, #0f172a)';
+            document.getElementById('editPlaceShortDesc').value = place.shortDesc || '';
+            document.getElementById('editPlaceFullDesc').value = place.fullDesc || '';
+            document.getElementById('editPlaceActivities').value = place.activities ? place.activities.join('، ') : '';
+            document.getElementById('editPlaceTip').value = place.tip || '';
+
+            editCardImagesList = [...getPlaceImages(place)];
+            renderMultiImageGrid('edit');
+
+            switchDevTab('editCardTab');
+        }
+
+        function deleteDestinationCard(id) {
+            const target = destinationsData.find(p => p.id === id);
+            if (!target) return;
+
+            destinationsData = destinationsData.filter(p => p.id !== id);
+            state.favorites = state.favorites.filter(favId => favId !== id);
+            state.tripIds = state.tripIds.filter(tripId => tripId !== id);
+
+            saveDestinationsToStorage();
+            saveState();
+            renderCards();
+            renderTripDrawer();
+            renderDevManageList();
+            showToast(`🗑️ تم حذف "${target.name}" نهائياً`);
+        }
+
+        function applyBrandingToUI() {
+            const logoContainer = document.getElementById('brandLogoContainer');
+            if (brandingConfig.profileImgUrl && brandingConfig.profileImgUrl.trim() !== '') {
+                logoContainer.innerHTML = `<img src="${brandingConfig.profileImgUrl}" alt="Profile" onerror="this.parentElement.textContent='${brandingConfig.profileEmoji || '🏔️'}'">`;
+            } else {
+                logoContainer.textContent = brandingConfig.profileEmoji || '🏔️';
+            }
+
+            document.getElementById('siteMainTitle').textContent = brandingConfig.siteTitle;
+            document.getElementById('siteSubTitle').textContent = brandingConfig.siteSub;
+            document.getElementById('heroPillText').textContent = brandingConfig.heroPill;
+            document.getElementById('heroDescText').textContent = brandingConfig.heroDesc;
+
+            document.getElementById('devProfileImgUrl').value = brandingConfig.profileImgUrl && !brandingConfig.profileImgUrl.startsWith('data:') ? brandingConfig.profileImgUrl : '';
+            document.getElementById('devProfileEmoji').value = brandingConfig.profileEmoji || '🏔️';
+            document.getElementById('devSiteTitleInput').value = brandingConfig.siteTitle;
+            document.getElementById('devSiteSubInput').value = brandingConfig.siteSub;
+            document.getElementById('devHeroPillInput').value = brandingConfig.heroPill;
+            document.getElementById('devHeroDescInput').value = brandingConfig.heroDesc;
+        }
+
+        function initDevPanelListeners() {
+            const devPanelModal = document.getElementById('devPanelModal');
+            const openDevPanelBtn = document.getElementById('openDevPanelBtn');
+            const closeDevPanelBtn = document.getElementById('closeDevPanelBtn');
+            const devAuthModal = document.getElementById('devAuthModal');
+            const devAuthForm = document.getElementById('devAuthForm');
+            const closeAuthModalBtn = document.getElementById('closeAuthModalBtn');
+            const brandLogoContainer = document.getElementById('brandLogoContainer');
+
+            function promptDevAuth() {
+                devAuthModal.classList.add('open');
+                document.body.style.overflow = 'hidden';
+                document.getElementById('devPassInput').value = '';
+                document.getElementById('devPassInput').focus();
+            }
+
+            devAuthForm.onsubmit = async function(e) {
+                e.preventDefault();
+                const pass = document.getElementById('devPassInput').value;
+                const isValid = await checkPassword(pass);
+                
+                if (isValid) {
+                    devAuthModal.classList.remove('open');
+                    devPanelModal.classList.add('open');
+                    openDevPanelBtn.style.display = 'flex';
+                    renderDevManageList();
+                    showToast('🔓 مرحباً بك في لوحة تحكم المطور');
+                } else {
+                    showToast('❌ كلمة السر غير صحيحة!');
+                    document.getElementById('devPassInput').value = '';
+                }
+            };
+
+            closeAuthModalBtn.onclick = function() {
+                devAuthModal.classList.remove('open');
+                document.body.style.overflow = '';
+            };
+
+            if (brandLogoContainer) {
+                brandLogoContainer.onclick = function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    logoClickCount++;
+                    clearTimeout(logoClickTimer);
+                    logoClickTimer = setTimeout(() => { logoClickCount = 0; }, 1200);
+
+                    if (logoClickCount >= 4) {
+                        logoClickCount = 0;
+                        promptDevAuth();
+                    }
+                };
+            }
+
+            if (openDevPanelBtn) {
+                openDevPanelBtn.onclick = function() {
+                    promptDevAuth();
+                };
+            }
+
+            if (closeDevPanelBtn && devPanelModal) {
+                closeDevPanelBtn.onclick = function() {
+                    devPanelModal.classList.remove('open');
+                    document.body.style.overflow = '';
+                };
+            }
+
+            document.addEventListener('keydown', (e) => {
+                if (e.ctrlKey && e.shiftKey && e.key.toLowerCase() === 'd') {
+                    e.preventDefault();
+                    promptDevAuth();
+                }
+            });
+
+            document.querySelectorAll('.dev-tab-btn').forEach(btn => {
+                btn.onclick = function() {
+                    switchDevTab(this.dataset.devTab);
+                };
+            });
+
+            document.getElementById('devPlaceImageFiles').addEventListener('change', (e) => {
+                handleMultiFilesSelection(e.target.files, 'add');
+                e.target.value = '';
+            });
+
+            document.getElementById('devAddImgUrlBtn').addEventListener('click', () => {
+                const input = document.getElementById('devPlaceImgUrlAppend');
+                const url = input.value.trim();
+                if (!url) return;
+                addCardImagesList.push(url);
+                input.value = '';
+                renderMultiImageGrid('add');
+                showToast('🖼️ تمت إضافة رابط الصورة');
+            });
+
+            document.getElementById('editPlaceImageFiles').addEventListener('change', (e) => {
+                handleMultiFilesSelection(e.target.files, 'edit');
+                e.target.value = '';
+            });
+
+            document.getElementById('editAddImgUrlBtn').addEventListener('click', () => {
+                const input = document.getElementById('editPlaceImgUrlAppend');
+                const url = input.value.trim();
+                if (!url) return;
+                editCardImagesList.push(url);
+                input.value = '';
+                renderMultiImageGrid('edit');
+                showToast('🖼️ تمت إضافة رابط الصورة');
+            });
+
+            document.getElementById('devProfileImageFile').addEventListener('change', (e) => {
+                const file = e.target.files[0];
+                if (!file) return;
+                compressMobileImage(file, 300, 0.85, (compressedDataUrl) => {
+                    uploadedProfileImageBase64 = compressedDataUrl;
+                    document.getElementById('devProfileFileLabel').textContent = `✅ تم اختيار: ${file.name}`;
+                    const preview = document.getElementById('devProfileImgPreview');
+                    preview.src = compressedDataUrl;
+                    preview.style.display = 'block';
+                });
+            });
+
+            document.getElementById('devAddCardForm').addEventListener('submit', (e) => {
+                e.preventDefault();
+
+                const activitiesRaw = document.getElementById('devPlaceActivities').value.trim();
+                const activitiesList = activitiesRaw
+                    ? activitiesRaw.split(/[،,]/).map(s => s.trim()).filter(Boolean)
+                    : ["الاستمتاع بالطبيعة والتقاط الصور", "قضاء وقت ممتع مع العائلة والأصدقاء"];
+
+                const newCard = normalizePlaceData({
+                    id: Date.now(),
+                    name: document.getElementById('devPlaceName').value.trim(),
+                    governorate: document.getElementById('devPlaceGov').value,
+                    type: document.getElementById('devPlaceType').value,
+                    emoji: document.getElementById('devPlaceEmoji').value.trim() || '🏔️',
+                    images: [...addCardImagesList],
+                    mapUrl: document.getElementById('devPlaceMapUrl').value.trim(),
+                    gradient: document.getElementById('devPlaceColor').value,
+                    shortDesc: document.getElementById('devPlaceShortDesc').value.trim(),
+                    bestSeason: document.getElementById('devPlaceSeason').value.trim() || 'طوال العام',
+                    fullDesc: document.getElementById('devPlaceFullDesc').value.trim(),
+                    activities: activitiesList,
+                    visitInfo: [
+                        `المحافظة: ${document.getElementById('devPlaceGov').value}`,
+                        `التصنيف: ${document.getElementById('devPlaceType').value}`
+                    ],
+                    tip: document.getElementById('devPlaceTip').value.trim() || 'تأكد من شحن هاتفك لالتقاط أجمل الصور التذكارية.'
+                });
+
+                destinationsData.unshift(newCard);
+                saveDestinationsToStorage();
+                renderCards();
+                renderDevManageList();
+                
+                document.getElementById('devAddCardForm').reset();
+                addCardImagesList = [];
+                renderMultiImageGrid('add');
+                showToast(`✅ تمت إضافة "${newCard.name}" بنجاح!`);
+            });
+
+            document.getElementById('devEditCardForm').addEventListener('submit', (e) => {
+                e.preventDefault();
+                const id = Number(document.getElementById('editPlaceId').value);
+                const index = destinationsData.findIndex(p => p.id === id);
+                if (index === -1) return;
+
+                const activitiesRaw = document.getElementById('editPlaceActivities').value.trim();
+                const activitiesList = activitiesRaw
+                    ? activitiesRaw.split(/[،,]/).map(s => s.trim()).filter(Boolean)
+                    : (destinationsData[index].activities || []);
+
+                destinationsData[index] = normalizePlaceData({
+                    ...destinationsData[index],
+                    name: document.getElementById('editPlaceName').value.trim(),
+                    governorate: document.getElementById('editPlaceGov').value,
+                    type: document.getElementById('editPlaceType').value,
+                    emoji: document.getElementById('editPlaceEmoji').value.trim() || '🏔️',
+                    images: [...editCardImagesList],
+                    imageUrl: '',
+                    mapUrl: document.getElementById('editPlaceMapUrl').value.trim(),
+                    gradient: document.getElementById('editPlaceColor').value,
+                    shortDesc: document.getElementById('editPlaceShortDesc').value.trim(),
+                    bestSeason: document.getElementById('editPlaceSeason').value.trim(),
+                    fullDesc: document.getElementById('editPlaceFullDesc').value.trim(),
+                    activities: activitiesList,
+                    tip: document.getElementById('editPlaceTip').value.trim()
+                });
+
+                state.cardSlideIndices[id] = 0;
+                saveDestinationsToStorage();
+                renderCards();
+                renderDevManageList();
+                switchDevTab('manageCardsTab');
+                showToast(`✅ تم تحديث بيانات "${destinationsData[index].name}" بنجاح!`);
+                
+                if (state.activeModalId === id) {
+                    openDetailsModal(id);
+                }
+            });
+
+            document.getElementById('devBrandingForm').addEventListener('submit', (e) => {
+                e.preventDefault();
+                const urlInput = document.getElementById('devProfileImgUrl').value.trim();
+                const finalProfileImg = uploadedProfileImageBase64 || urlInput || brandingConfig.profileImgUrl;
+
+                brandingConfig = {
+                    profileImgUrl: finalProfileImg,
+                    profileEmoji: document.getElementById('devProfileEmoji').value.trim() || '🏔️',
+                    siteTitle: document.getElementById('devSiteTitleInput').value.trim() || defaultBranding.siteTitle,
+                    siteSub: document.getElementById('devSiteSubInput').value.trim() || defaultBranding.siteSub,
+                    heroPill: document.getElementById('devHeroPillInput').value.trim() || defaultBranding.heroPill,
+                    heroDesc: document.getElementById('devHeroDescInput').value.trim() || defaultBranding.heroDesc
+                };
+
+                try {
+                    localStorage.setItem(STORAGE_KEYS.BRANDING, JSON.stringify(brandingConfig));
+                    uploadedProfileImageBase64 = '';
+                    document.getElementById('devProfileFileLabel').textContent = 'اضغط لاختيار صورة البروفايل من الاستوديو...';
+                    document.getElementById('devProfileImgPreview').style.display = 'none';
+                    applyBrandingToUI();
+                    showToast('💾 تم تحديث صورة البروفايل وإعدادات الواجهة!');
+                } catch (err) {
+                    showToast('⚠️ حجم الصورة كبير جداً للتخزين المحلي.');
+                }
+            });
+
+            const resetDefaultCardsBtn = document.getElementById('resetDefaultCardsBtn');
+            if (resetDefaultCardsBtn) {
+                resetDefaultCardsBtn.onclick = function() {
+                    destinationsData = defaultDestinationsData.map(normalizePlaceData);
+                    state.cardSlideIndices = {};
+                    saveDestinationsToStorage();
+                    renderCards();
+                    renderDevManageList();
+                    showToast('🔄 تم استعادة البطاقة الافتراضية بنجاح');
+                };
+            }
+        }
+
+        /* =========================================
+           11. التهيئة الأولية للتطبيق
+           ========================================= */
+        window.addEventListener('DOMContentLoaded', () => {
+            applyBrandingToUI();
+            updateBadges();
+            renderCards();
+            renderTripDrawer();
+            initDevPanelListeners();
+        });
+    </script>
+</body>
+</html>
